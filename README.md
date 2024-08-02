@@ -9,7 +9,7 @@ This is based on https://rancavil.medium.com/jupyter-pandas-and-geojson-298c9bd1
 docker build -t solvis-jupyterlab .
 ```
 
-### Run jupyter locally
+### Run jupyter server locally with docker
 
 ```
 docker run -it --rm -v $(pwd)/WORKDIR:/home/jovyan/WORKDIR --name solvis-demo -p 8888:8888 solvis-jupyterlab
