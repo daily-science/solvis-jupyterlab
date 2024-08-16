@@ -1,8 +1,8 @@
-FROM jupyter/base-notebook:latest
+FROM quay.io/jupyter/base-notebook:latest
 
 RUN pip install pandas jupyterlab-geojson geojson
 
-RUN pip install jupyterlab-git
+# RUN pip install jupyterlab-git
 
 USER root
 RUN apt-get update
