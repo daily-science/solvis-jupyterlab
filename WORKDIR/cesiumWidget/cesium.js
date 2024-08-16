@@ -83,7 +83,25 @@ function render({ model, el }) {
     //    viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
     el.appendChild(div);
 
-    console.log(div);
+    //console.log(div);
+
+    model.on("msg:custom", (msg) => {
+        if (msg?.geojson) {
+            const geojson = JSON.parse(msg.geojson);
+
+            // Cesium expects elevation in meters
+            for (const feature of geojson.features) {
+                const coords = feature.geometry.coordinates[0];
+                for (var i = 0; i < coords.length; i++) {
+                    const [lon, lat, ele] = coords[i];
+                    coords[i] = [lon, lat, ele * -1000];
+                }
+            }
+
+
+            viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
+        }
+    });
 
     // //-----------
     //   let button = document.createElement("button");
