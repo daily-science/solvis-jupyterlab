@@ -67,38 +67,40 @@ function render({ model, el }) {
         });
 
         model.on("msg:custom", (msg) => {
-            if (msg?.geojson) {
-                const geojson = msg.geojson;
+            try {
+                if (msg?.geojson) {
+                    const geojson = msg.geojson;
 
-                console.log(geojson);
-
-                return;
-
-                // arcgis expects elevation in meters
-                for (const feature of geojson.features) {
-                    const coords = feature.geometry.coordinates[0];
-                    for (var i = 0; i < coords.length; i++) {
-                        const [lon, lat, ele] = coords[i];
-                        coords[i] = [lon, lat, ele * -1000];
+                    //arcgis expects elevation in meters
+                    for (const feature of geojson.features) {
+                        if (feature.geometry.type === 'Polygon') {
+                            const coords = feature.geometry.coordinates[0];
+                            for (var i = 0; i < coords.length; i++) {
+                                const [lon, lat, ele] = coords[i];
+                                coords[i] = [lon, lat, ele * -1000];
+                            }
+                        }
                     }
+                    // create a new blob from geojson featurecollection
+                    const blob = new Blob([JSON.stringify(geojson)], {
+                        type: "application/json"
+                    });
+
+                    // URL reference to the blob
+                    const url = URL.createObjectURL(blob);
+
+                    const layer = new GeoJSONLayer({
+                        url,
+                        elevationInfo: { mode: "absolute-height" },
+                        hasZ: true,
+                        blendMode: "multiply"
+                    });
+
+                    layer.renderer = createSceneRenderer();
+                    scene.add(layer);
                 }
-                // create a new blob from geojson featurecollection
-                const blob = new Blob([JSON.stringify(geojson)], {
-                    type: "application/json"
-                });
-
-                // URL reference to the blob
-                const url = URL.createObjectURL(blob);
-
-                const layer = new GeoJSONLayer({
-                    url,
-                    elevationInfo: { mode: "absolute-height" },
-                    hasZ: true,
-                    blendMode: "multiply"
-                });
-
-                layer.renderer = createSceneRenderer();
-                scene.add(layer);
+            } catch (err) {
+                console.error(err);
             }
         });
 
