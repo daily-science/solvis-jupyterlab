@@ -16,9 +16,13 @@ await loadScript("https://js.arcgis.com/4.30/");
 function render({ model, el }) {
 
     try {
+        const containerDiv = document.createElement("div");
+        containerDiv.id = "oakley's div";
+        containerDiv.style.width = model.get("width");
+        containerDiv.style.height = model.get("height");
         const div = document.createElement("div");
-        div.style.width = model.get("width");
-        div.style.height = model.get("height");
+        div.style.width= "100%";
+        div.style.height = "100%";
 
         const geojson = model.get("geojson");
 
@@ -29,6 +33,8 @@ function render({ model, el }) {
             "esri/renderers/SimpleRenderer",
             "esri/symbols/PolygonSymbol3D",
             "esri/widgets/Slider",
+            "esri/widgets/Home",
+            "esri/widgets/Fullscreen",
         ], (
             SceneView,
             Map,
@@ -36,6 +42,8 @@ function render({ model, el }) {
             SimpleRenderer,
             PolygonSymbol3D,
             Slider,
+            Home,
+            Fullscreen,
         ) => {
 
             console.log("hello!");
@@ -64,19 +72,32 @@ function render({ model, el }) {
             initialViewParams.map = scene;
             const sceneView = new SceneView(initialViewParams);
             sceneView.container = div;
-            console.log(sceneView.constraints.clipDistance);
+            // console.log(sceneView.constraints.clipDistance);
 
-            sceneView.constraints.clipDistance.watch("near", function (newValue, oldValue, propertyName, target) {
-                console.log(propertyName + " changed from " + oldValue + " to " + newValue);
-            });
+            // sceneView.constraints.clipDistance.watch("near", function (newValue, oldValue, propertyName, target) {
+            //     console.log(propertyName + " changed from " + oldValue + " to " + newValue);
+            // });
 
             sceneView.constraints.clipDistance.watch("far", function (newValue, oldValue, propertyName, target) {
                 if (newValue < 6587860) {
                     target.far = 16587860;
+                    console.log(target);
+                    console.log(propertyName + " changed from " + oldValue + " to " + newValue);
                 }
-                console.log(target);
-                console.log(propertyName + " changed from " + oldValue + " to " + newValue);
             });
+
+            const homeBtn = new Home({
+                view: sceneView
+            });
+
+            // Add the home button to the top left corner of the view
+            sceneView.ui.add(homeBtn, "top-left");
+
+            const fullscreen = new Fullscreen({
+                //view: sceneView
+                element: containerDiv
+            });
+            sceneView.ui.add(fullscreen, "top-right");
 
             //sceneView.constraints.clipDistance.near = 1e-8;
             //    sceneView.constraints.clipDistance.far =1e9;
@@ -188,7 +209,8 @@ function render({ model, el }) {
 
         });
 
-        el.appendChild(div);
+        containerDiv.appendChild(div);
+        el.appendChild(containerDiv);
 
 
         function fullScreen() {

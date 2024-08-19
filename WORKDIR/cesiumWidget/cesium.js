@@ -25,16 +25,20 @@ function render({ model, el }) {
     const viewer = new Cesium.Viewer(div, {
         animation: true,
         baseLayerPicker: false,
-        navigationHelpButton: false,
-        sceneModePicker: true,
-        homeButton: false,
+        navigationHelpButton: true,
+        navigationInstructionsInitiallyVisible: false,
+        sceneModePicker: false,
+        homeButton: true,
         geocoder: false,
         fullscreenButton: true,
+        fullscreenElement: div,
         timeline: true,
         baseLayer: new Cesium.ImageryLayer(new Cesium.OpenStreetMapImageryProvider({
             url: "https://tile.openstreetmap.org/",
             credit: new Cesium.Credit("OpenStreetMap", true)
         })),
+        // large negative value to render large underground structures
+        depthPlaneEllipsoidOffset: -50000.0,
     });
 
 
@@ -51,13 +55,21 @@ function render({ model, el }) {
         return "oakley";
       };
 
-      console.log(viewer.camera.frustum);
+   //   console.log(viewer.camera.frustum);
 
     //    viewer.camera.frustum.near = 1e-9;
     //    viewer.camera.frustum.far = 500000000000;
     viewer.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 4500),
+        destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
     });
+    viewer.homeButton.viewModel.command.beforeExecute.addEventListener(
+        function(e) {
+            e.cancel = true;
+            viewer.scene.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
+            });
+        }
+    )
     viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
     // setting to 2.5D because rendering and navigation is confusing and buggy in 3D
   //  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
