@@ -23,19 +23,34 @@ function render({ model, el }) {
 
 
     const viewer = new Cesium.Viewer(div, {
-        animation: false,
+        animation: true,
         baseLayerPicker: false,
         navigationHelpButton: false,
         sceneModePicker: true,
         homeButton: false,
         geocoder: false,
         fullscreenButton: true,
-        timeline: false,
+        timeline: true,
         baseLayer: new Cesium.ImageryLayer(new Cesium.OpenStreetMapImageryProvider({
             url: "https://tile.openstreetmap.org/",
             credit: new Cesium.Credit("OpenStreetMap", true)
         })),
     });
+
+
+    viewer.animation.viewModel.dateFormatter = function(date, viewModel) {
+        return "the date";
+    }
+
+    viewer.animation.viewModel.timeFormatter = function(date, viewModel) {
+        return "Oakley was here";
+    }
+
+    Cesium.Timeline.prototype.makeLabel = function (time) {
+        const localDate = Cesium.JulianDate.toDate(time);
+        return "oakley";
+      };
+
     viewer.camera.setView({
         destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 4500),
     });
@@ -79,6 +94,18 @@ function render({ model, el }) {
     });
 
     el.appendChild(div);
+
+    function fullScreen() {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            div.requestFullscreen();
+        }
+    }
+    const full = document.createElement("button");
+    full.innerHTML = "fullscreen";
+    full.addEventListener("click", fullScreen, false);
+    div.appendChild(full);
 }
 
 
