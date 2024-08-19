@@ -42,12 +42,20 @@ function render({ model, el }) {
             const initialViewParams = {
                 zoom: 7,
                 center: [174.777, -41.288],
-                container: div
+                container: div,
+                environment: {
+                    background: {
+                        type: "color",
+                        color: [0, 0, 0, 0]
+                    },
+                    starsEnabled: false,
+                    atmosphereEnabled: true
+                }
             };
 
             const scene = new Map({
                 basemap: "gray-vector", ground: {
-                    // navigationConstraint: "none",
+                    navigationConstraint: "none",
                     opacity: 0.8
                 },
             });
@@ -106,6 +114,8 @@ function render({ model, el }) {
                         }
                     }
                 }
+
+                console.log(geojson);
                 // create a new blob from geojson featurecollection
                 const blob = new Blob([JSON.stringify(geojson)], {
                     type: "application/json"
