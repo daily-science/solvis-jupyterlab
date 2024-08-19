@@ -51,12 +51,17 @@ function render({ model, el }) {
         return "oakley";
       };
 
+      console.log(viewer.camera.frustum);
+
+    //    viewer.camera.frustum.near = 1e-9;
+    //    viewer.camera.frustum.far = 500000000000;
     viewer.camera.setView({
         destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 4500),
     });
-    viewer.scene.screenSpaceCameraController.enableCollisionDetection = true;
+    viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
     // setting to 2.5D because rendering and navigation is confusing and buggy in 3D
-    viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
+  //  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
+  viewer.scene.mode = Cesium.SceneMode.SCENE3D;
 
     if (model.get("geojson").length > 0) {
         const geojson = JSON.parse(model.get("geojson"));
@@ -92,6 +97,17 @@ function render({ model, el }) {
             viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
         }
     });
+
+    // this works for 2.5D
+    // Cesium.EllipsoidalOccluder.prototype.isScaledSpacePointVisible = function (
+    //     occludeeScaledSpacePosition
+    //   ) {
+    //     return isScaledSpacePointVisible(
+    //       occludeeScaledSpacePosition,
+    //       this._cameraPositionInScaledSpace,
+    //       this._distanceToLimbInScaledSpaceSquared
+    //     );
+    //   };
 
     el.appendChild(div);
 

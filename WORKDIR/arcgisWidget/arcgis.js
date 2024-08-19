@@ -56,6 +56,24 @@ function render({ model, el }) {
             initialViewParams.map = scene;
             const sceneView = new SceneView(initialViewParams);
             sceneView.container = div;
+            console.log(sceneView.constraints.clipDistance);
+
+            sceneView.constraints.clipDistance.watch("near", function (newValue, oldValue, propertyName, target) {
+                console.log(propertyName + " changed from " + oldValue + " to " + newValue);
+            });
+
+            sceneView.constraints.clipDistance.watch("far", function (newValue, oldValue, propertyName, target) {
+                if (newValue < 6587860) {
+                    target.far = 16587860;
+                }
+                console.log(target);
+                console.log(propertyName + " changed from " + oldValue + " to " + newValue);
+            });
+
+            //sceneView.constraints.clipDistance.near = 1e-8;
+            //    sceneView.constraints.clipDistance.far =1e9;
+            // sceneView.constraints.clipDistance.mode ="manual";
+
 
             // prevent jupyterlab from popping up the context menu
             div.addEventListener("contextmenu", function (ev) {
@@ -110,19 +128,19 @@ function render({ model, el }) {
 
             const sliderDiv = document.createElement("div");
             document.body.appendChild(sliderDiv);
-            sliderDiv.style="width:300px";
+            sliderDiv.style = "width:300px";
 
             const slider = new Slider({
                 container: sliderDiv,
                 min: 0,
                 max: 100,
-                values: [ 50 ],
+                values: [50],
                 snapOnClickEnabled: false,
                 visibleElements: {
-                  labels: true,
-                  rangeLabels: true
+                    labels: true,
+                    rangeLabels: true
                 }
-              });
+            });
 
             sceneView.ui.add(slider, "bottom-right");
 
@@ -163,17 +181,17 @@ function render({ model, el }) {
         el.appendChild(div);
 
 
-        // function fullScreen() {
-        //     if (document.fullscreenElement) {
-        //         document.exitFullscreen();
-        //     } else {
-        //         div.requestFullscreen();
-        //     }
-        // }
-        // const full = document.createElement("button");
-        // full.innerHTML = "fullscreen";
-        // full.addEventListener("click", fullScreen, false);
-        // div.appendChild(full);
+        function fullScreen() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                div.requestFullscreen();
+            }
+        }
+        const full = document.createElement("button");
+        full.innerHTML = "fullscreen";
+        full.addEventListener("click", fullScreen, false);
+        div.appendChild(full);
 
     } catch (err) {
         console.error(err);
