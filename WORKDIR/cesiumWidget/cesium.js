@@ -80,7 +80,7 @@ function render({ model, el }) {
 
         // Cesium expects elevation in meters
         for (const feature of geojson.features) {
-            const coords = feature.geometry.coordinates[0];
+            const coords = feature.geometry.coordinates;
             for (var i = 0; i < coords.length; i++) {
                 const [lon, lat, ele] = coords[i];
                 coords[i] = [lon, lat, ele * -1000];
@@ -91,6 +91,11 @@ function render({ model, el }) {
         viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
     }
 
+    console.log(viewer.scene.screenSpaceCameraController);
+
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = -20000;
+    viewer.scene.screenSpaceCameraController.minimumZoomRate = 350;
+
 
     model.on("msg:custom", (msg) => {
         if (msg?.geojson) {
@@ -98,7 +103,7 @@ function render({ model, el }) {
 
             // Cesium expects elevation in meters
             for (const feature of geojson.features) {
-                const coords = feature.geometry.coordinates[0];
+                const coords = feature.geometry.coordinates;
                 for (var i = 0; i < coords.length; i++) {
                     const [lon, lat, ele] = coords[i];
                     coords[i] = [lon, lat, ele * -1000];

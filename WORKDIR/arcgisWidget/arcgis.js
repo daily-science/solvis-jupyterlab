@@ -21,9 +21,8 @@ function render({ model, el }) {
         containerDiv.style.width = model.get("width");
         containerDiv.style.height = model.get("height");
         const div = document.createElement("div");
-        div.style.width= "100%";
-        div.style.height = "100%";
-
+        div.classList.add("arcGisMapContainer");
+        
         const geojson = model.get("geojson");
 
         require([
@@ -46,7 +45,7 @@ function render({ model, el }) {
             Fullscreen,
         ) => {
 
-            console.log("hello!");
+            console.log("render map");
             const initialViewParams = {
                 zoom: 7,
                 center: [174.777, -41.288],
@@ -95,7 +94,7 @@ function render({ model, el }) {
 
             const fullscreen = new Fullscreen({
                 //view: sceneView
-                element: containerDiv
+                element: div
             });
             sceneView.ui.add(fullscreen, "top-right");
 
@@ -109,19 +108,34 @@ function render({ model, el }) {
                 ev.stopPropagation();
             })
 
-            const createSceneRenderer = () => new SimpleRenderer({
-                symbol: new PolygonSymbol3D({
-                    symbolLayers: [{
-                        type: 'fill',
-                        material: { color: [0, 0, 242, 0.5] },
-                    }]
-                })
+            function makeSymbol(geometryType) {
+                if (geometryType === "Polygon") {
+                    return new PolygonSymbol3D({
+                        symbolLayers: [{
+                            type: 'fill',
+                            material: { color: [0, 0, 242, 0.5] },
+                        }]
+                    });
+                }
+                if (geometryType === "LineString") {
+                    return {
+                        type: "line-3d",
+                        symbolLayers: [{
+                            type: 'line',
+                            size: 1,
+                            material: { color: [0, 0, 242, 0.5] },
+                        }]
+                    };
+                }
+            }
+
+            const createSceneRenderer = (geometryType) => new SimpleRenderer({
+                symbol: makeSymbol(geometryType)
             });
 
             const template = {
                 title: "Section {FaultID}:{ParentID}",
                 content: "name: <b>{FaultName}</b>",
-
             };
 
             function createGeoJsonLayer(geojson) {
@@ -134,9 +148,17 @@ function render({ model, el }) {
                             coords[i] = [lon, lat, ele * -1000];
                         }
                     }
+                    if (feature.geometry.type === 'LineString') {
+                        const coords = feature.geometry.coordinates;
+                        for (var i = 0; i < coords.length; i++) {
+                            const [lon, lat, ele] = coords[i];
+                            coords[i] = [lon, lat, ele * -1000];
+                        }
+                    }
                 }
 
-                console.log(geojson);
+                //                console.log(geojson);
+
                 // create a new blob from geojson featurecollection
                 const blob = new Blob([JSON.stringify(geojson)], {
                     type: "application/json"
@@ -149,7 +171,7 @@ function render({ model, el }) {
                     url,
                     elevationInfo: { mode: "absolute-height" },
                     hasZ: true,
-                    renderer: createSceneRenderer(),
+                    renderer: createSceneRenderer(geojson.features[0].geometry.type),
                     popupTemplate: template,
                 });
                 return layer;
@@ -163,18 +185,28 @@ function render({ model, el }) {
 
             const slider = new Slider({
                 container: sliderDiv,
-                min: 0,
-                max: 100,
-                values: [50],
-                snapOnClickEnabled: false,
+                min: 1,
+                max: 2,
+                values: [1],
+                disabled: true,
+                snapOnClickEnabled: true,
+                steps: 1,
                 visibleElements: {
                     labels: true,
-                    rangeLabels: true
+                    rangeLabels: true,
                 }
             });
 
-            sceneView.ui.add(slider, "bottom-right");
+            var currentSelectionIndex = 1;
 
+
+            slider.on(["thumb-click", "thumb-drag","thumb-change", "track-click"], function(event) {
+                if(event.value!= currentSelectionIndex) {
+                    scene.remove(selectionLayers[currentSelectionIndex-1]);
+                }
+                currentSelectionIndex =event.value;
+                scene.add(selectionLayers[currentSelectionIndex-1]);
+            })
 
 
             model.on("msg:custom", (msg) => {
@@ -182,9 +214,14 @@ function render({ model, el }) {
                     if (msg?.geojson) {
                         const layer = createGeoJsonLayer(msg.geojson);
                         scene.add(layer);
-                    } else if (msg?.geojsons) {
-                        for (const geojson of msg.geojsons) {
-                            selectionLayers.push(createGeoJsonLayer(geojson));
+                    } else if (msg?.selection) {
+                        selectionLayers.push(createGeoJsonLayer(msg.selection));
+                        if(selectionLayers.length==1) {
+                            scene.add(selectionLayers[0]);
+                            sceneView.ui.add(slider, "bottom-right");
+                        } else {
+                            slider.max = selectionLayers.length;
+                            slider.disabled = false;
                         }
 
                         // const slider = new Slider({
@@ -211,19 +248,6 @@ function render({ model, el }) {
 
         containerDiv.appendChild(div);
         el.appendChild(containerDiv);
-
-
-        function fullScreen() {
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            } else {
-                div.requestFullscreen();
-            }
-        }
-        const full = document.createElement("button");
-        full.innerHTML = "fullscreen";
-        full.addEventListener("click", fullScreen, false);
-        div.appendChild(full);
 
     } catch (err) {
         console.error(err);
