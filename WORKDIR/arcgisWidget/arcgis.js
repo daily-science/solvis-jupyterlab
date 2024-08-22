@@ -22,7 +22,7 @@ function render({ model, el }) {
         containerDiv.style.height = model.get("height");
         const div = document.createElement("div");
         div.classList.add("arcGisMapContainer");
-        
+
         const geojson = model.get("geojson");
 
         require([
@@ -199,14 +199,39 @@ function render({ model, el }) {
 
             var currentSelectionIndex = 1;
 
-
-            slider.on(["thumb-click", "thumb-drag","thumb-change", "track-click"], function(event) {
-                if(event.value!= currentSelectionIndex) {
-                    scene.remove(selectionLayers[currentSelectionIndex-1]);
+            function sliderChangeHandler(event) {
+                if (slider.values[0] !== currentSelectionIndex) {
+                    scene.remove(selectionLayers[currentSelectionIndex - 1]);
                 }
-                currentSelectionIndex =event.value;
-                scene.add(selectionLayers[currentSelectionIndex-1]);
-            })
+                currentSelectionIndex = slider.values[0];
+                scene.add(selectionLayers[currentSelectionIndex - 1]);
+            }
+
+            slider.on(["thumb-click", "thumb-drag", "thumb-change", "track-click"], sliderChangeHandler);
+
+            const sliderForward = document.createElement("div");
+            sliderForward.classList.add("fa");
+            sliderForward.classList.add("fa-forward");
+            sliderForward.classList.add("sliderControlButton");
+            sceneView.ui.add(sliderForward, "bottom-right");
+            const sliderBack = document.createElement("div");
+            sliderBack.classList.add("fa");
+            sliderBack.classList.add("fa-backward");
+            sliderBack.classList.add("sliderControlButton");
+            sceneView.ui.add(sliderBack, "bottom-right");
+
+            sliderForward.addEventListener("click", function (event) {
+                if (slider.max > slider.values[0]) {
+                    slider.values = [slider.values[0] + 1];
+                    sliderChangeHandler();
+                }
+            });
+            sliderBack.addEventListener("click", function (event) {
+                if (slider.min < slider.values[0]) {
+                    slider.values = [slider.values[0] - 1];
+                    sliderChangeHandler();
+                }
+            });
 
 
             model.on("msg:custom", (msg) => {
@@ -216,7 +241,7 @@ function render({ model, el }) {
                         scene.add(layer);
                     } else if (msg?.selection) {
                         selectionLayers.push(createGeoJsonLayer(msg.selection));
-                        if(selectionLayers.length==1) {
+                        if (selectionLayers.length == 1) {
                             scene.add(selectionLayers[0]);
                             sceneView.ui.add(slider, "bottom-right");
                         } else {
@@ -248,7 +273,7 @@ function render({ model, el }) {
 
         containerDiv.appendChild(div);
         el.appendChild(containerDiv);
-
+        ;
     } catch (err) {
         console.error(err);
     }
