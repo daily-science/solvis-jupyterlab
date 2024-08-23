@@ -13,6 +13,55 @@ function loadScript(src) {
 
 await loadScript("https://js.arcgis.com/4.30/");
 
+function getAllGeoJSONProperties(geojson, field) {
+    const values = geojson.features.map(feature => {
+        const properties = feature.properties;
+        return properties[field];
+    });
+    return [... new Set(values)];
+}
+
+function makeSymbol(geometryType) {
+    if (geometryType === "Polygon") {
+        return {
+            type: "polygon-3d",
+            symbolLayers: [{
+                type: 'fill',
+                material: { color: [0, 0, 242, 0.5] },
+            }]
+        };
+    }
+    if (geometryType === "LineString") {
+        return {
+            type: "line-3d",
+            symbolLayers: [{
+                type: 'line',
+                size: 1,
+                material: { color: [0, 0, 242, 0.5] },
+            }]
+        };
+    }
+}
+
+function makeColorRenderer(field, geometryType, colors) {
+    const symbolType = geometryType === "Polygon" ? "simple-fill" : "simple-line";
+    const result = {
+        type: "unique-value",
+        "field": field,
+        defaultSymbol: { type: symbolType },
+        uniqueValueInfos: colors.map(color => {
+            return {
+                value: color,
+                symbol: {
+                    type: symbolType,
+                    "color": color
+                }
+            }
+        })
+    };
+    return result;
+}
+
 function render({ model, el }) {
 
     try {
@@ -80,8 +129,6 @@ function render({ model, el }) {
             sceneView.constraints.clipDistance.watch("far", function (newValue, oldValue, propertyName, target) {
                 if (newValue < 6587860) {
                     target.far = 16587860;
-                    console.log(target);
-                    console.log(propertyName + " changed from " + oldValue + " to " + newValue);
                 }
             });
 
@@ -108,30 +155,17 @@ function render({ model, el }) {
                 ev.stopPropagation();
             })
 
-            function makeSymbol(geometryType) {
-                if (geometryType === "Polygon") {
-                    return new PolygonSymbol3D({
-                        symbolLayers: [{
-                            type: 'fill',
-                            material: { color: [0, 0, 242, 0.5] },
-                        }]
-                    });
-                }
-                if (geometryType === "LineString") {
-                    return {
-                        type: "line-3d",
-                        symbolLayers: [{
-                            type: 'line',
-                            size: 1,
-                            material: { color: [0, 0, 242, 0.5] },
-                        }]
-                    };
-                }
-            }
 
-            const createSceneRenderer = (geometryType) => new SimpleRenderer({
-                symbol: makeSymbol(geometryType)
-            });
+            const createSceneRenderer = (geometryType, geojson) => {
+
+                // FIXME: handle points, etc
+                const fieldName = geometryType === "Polygon" ? "fill" : "stroke";
+
+                const colors = getAllGeoJSONProperties(geojson, fieldName);
+
+                return makeColorRenderer(fieldName, geometryType, colors);
+
+            };
 
             const template = {
                 title: "Section {FaultID}:{ParentID}",
@@ -167,11 +201,13 @@ function render({ model, el }) {
                 // URL reference to the blob
                 const url = URL.createObjectURL(blob);
 
+                const renderer = createSceneRenderer(geojson.features[0].geometry.type, geojson);
+
                 const layer = new GeoJSONLayer({
                     url,
                     elevationInfo: { mode: "absolute-height" },
                     hasZ: true,
-                    renderer: createSceneRenderer(geojson.features[0].geometry.type),
+                    renderer: renderer,
                     popupTemplate: template,
                 });
                 return layer;
@@ -187,7 +223,7 @@ function render({ model, el }) {
                 container: sliderDiv,
                 min: 1,
                 max: 2,
-                values: [1],
+                values: [1,2],
                 disabled: true,
                 snapOnClickEnabled: true,
                 steps: 1,
@@ -197,17 +233,28 @@ function render({ model, el }) {
                 }
             });
 
-            var currentSelectionIndex = 1;
+            var currentSelectionIndex = [1,1];
 
             function sliderChangeHandler(event) {
-                if (slider.values[0] !== currentSelectionIndex) {
-                    scene.remove(selectionLayers[currentSelectionIndex - 1]);
+                console.log(currentSelectionIndex);
+                if (slider.values !== currentSelectionIndex) {
+                    if(currentSelectionIndex.length==1){
+                        scene.remove(selectionLayers[currentSelectionIndex[0] - 1]);
+                    } else {
+                        for(var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
+                            scene.remove(selectionLayers[currentSelectionIndex[i] - 1]);
+                        }
+                    }
                 }
-                currentSelectionIndex = slider.values[0];
-                scene.add(selectionLayers[currentSelectionIndex - 1]);
+                currentSelectionIndex = slider.values;
+                console.log(currentSelectionIndex);
+                for(var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
+                    scene.add(selectionLayers[i - 1]);
+                }
             }
 
             slider.on(["thumb-click", "thumb-drag", "thumb-change", "track-click"], sliderChangeHandler);
+
 
             const sliderForward = document.createElement("div");
             sliderForward.classList.add("fa");
@@ -244,6 +291,7 @@ function render({ model, el }) {
                         if (selectionLayers.length == 1) {
                             scene.add(selectionLayers[0]);
                             sceneView.ui.add(slider, "bottom-right");
+                            slider.trackElement.style.height="8px";
                         } else {
                             slider.max = selectionLayers.length;
                             slider.disabled = false;

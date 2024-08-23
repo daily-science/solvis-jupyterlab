@@ -21,3 +21,7 @@
   .sliderControlButton:hover {
     background-color: RoyalBlue;
   }
+
+  .thickTrack {
+    height: 8px;
+  }
