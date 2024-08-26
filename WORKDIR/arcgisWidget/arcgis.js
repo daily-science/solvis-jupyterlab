@@ -48,7 +48,7 @@ function makeColorRenderer(field, geometryType, colors) {
     const result = {
         type: "unique-value",
         "field": field,
-        defaultSymbol: { type: symbolType },
+        defaultSymbol: { type: symbolType, "color": "black" },
         uniqueValueInfos: colors.map(color => {
             return {
                 value: color,
@@ -97,6 +97,7 @@ function render({ model, el }) {
         ) => {
 
             console.log("render map");
+            console.log(model);
             const initialViewParams = {
                 container: div,
                 environment: {
@@ -168,6 +169,9 @@ function render({ model, el }) {
 
                 const colors = getAllGeoJSONProperties(geojson, fieldName);
 
+                console.log("colors");
+                console.log(colors);
+
                 return makeColorRenderer(fieldName, geometryType, colors);
 
             };
@@ -228,8 +232,9 @@ function render({ model, el }) {
                 container: sliderDiv,
                 min: 1,
                 max: 2,
-                values: [1, 2],
+                values: [1],
                 disabled: true,
+                visible: false,
                 snapOnClickEnabled: true,
                 steps: 1,
                 visibleElements: {
@@ -238,24 +243,19 @@ function render({ model, el }) {
                 }
             });
 
-            var currentSelectionIndex = [1, 1];
+            var currentSelectionIndex = model.get("selection");
+
 
             function sliderChangeHandler(event) {
-                console.log(currentSelectionIndex);
-                if (slider.values !== currentSelectionIndex) {
-                    if (currentSelectionIndex.length == 1) {
-                        scene.remove(selectionLayers[currentSelectionIndex[0] - 1]);
-                    } else {
-                        for (var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
-                            scene.remove(selectionLayers[currentSelectionIndex[i] - 1]);
-                        }
-                    }
+                if (slider.values[0] - 1 !== currentSelectionIndex) {
+                    scene.remove(selectionLayers[currentSelectionIndex]);
                 }
-                currentSelectionIndex = slider.values;
-                console.log(currentSelectionIndex);
-                for (var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
-                    scene.add(selectionLayers[i - 1]);
+                currentSelectionIndex = slider.values[0] - 1;
+                if (selectionLayers.length > currentSelectionIndex) {
+                    scene.add(selectionLayers[currentSelectionIndex]);
                 }
+                model.set("selection", currentSelectionIndex);
+                model.save_changes();
             }
 
             slider.on(["thumb-click", "thumb-drag", "thumb-change", "track-click"], sliderChangeHandler);
@@ -285,35 +285,31 @@ function render({ model, el }) {
                 }
             });
 
-            var oldCamera;
-
             function dataChange() {
                 console.log("dataChange");
                 const newData = model.get("data");
-                console.log(newData);
                 if (newData.length > selectionLayers.length) {
                     for (var i = selectionLayers.length; i < newData.length; i++) {
-                        selectionLayers.push(createGeoJsonLayer(newData[i]));
-                        if (selectionLayers.length == 1) {
-                            scene.add(selectionLayers[0]);
-                            sceneView.ui.add(slider, "bottom-right");
-                        } else {
-                            slider.max = selectionLayers.length;
-                            slider.disabled = false;
-                        }
+                        const layer = createGeoJsonLayer(newData[i]);
+                        selectionLayers.push(layer);
                     }
+                    if (selectionLayers.length > currentSelectionIndex) {
+                        scene.add(selectionLayers[currentSelectionIndex]);
+                    }
+
+                    if (selectionLayers.length > 1) {
+                        sceneView.ui.add(slider, "bottom-right");
+                        slider.values = [model.get("selection") + 1];
+                        slider.max = selectionLayers.length;
+                        slider.disabled = false;
+                        slider.visible = true;
+                        sliderForward.style.display = "block";
+                        sliderBack.style.display = "block";
+                    }
+
                 }
-                // console.log(oldCamera);
-                // if (!oldCamera) {
-                //     if (sceneView.camera) {
-                //         oldCamera = sceneView.camera.toJSON();
-                //     }
-                // } else {
-                //     sceneView.goTo(oldCamera);
-                // }
-                // console.log(oldCamera);
-                // //console.log(JSON.stringify(sceneView.camera.toJSON()));
             }
+
 
             model.on("change:data", dataChange);
 
@@ -323,16 +319,23 @@ function render({ model, el }) {
 
             dataChange();
 
+            //slider.values=[currentSelectionIndex];
+            //   sliderChangeHandler();
+
             reactiveUtils.when(() => sceneView.stationary === true, () => {
-                const camera = sceneView.camera.toJSON();
-                model.set("_camera", camera);
-                model.save_changes();
+                if (sceneView.camera) {
+                    const camera = sceneView.camera.toJSON();
+                    model.set("_camera", camera);
+                    model.save_changes();
+                }
             });
 
-            // const camera = model.get("_camera");
-            // if (camera && Object.keys(camera).length > 0) {
-            //     sceneView.goTo(Camera.fromJSON(camera));
-            // }
+            sceneView.on("click", (event) => {
+                console.log(event);
+                sceneView.hitTest(event).then(({ results }) => {
+                    console.log(results);
+                  });
+            });
 
         });
 

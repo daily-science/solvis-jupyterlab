@@ -15,6 +15,7 @@
     padding: 4px 4px; /* Some padding */
     font-size: 12px; /* Set a font size */
     cursor: pointer; /* Mouse pointer on hover */
+    display: none;
   }
   
   /* Darker background on mouse-over */
