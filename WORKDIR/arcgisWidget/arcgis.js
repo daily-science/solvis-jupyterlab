@@ -188,10 +188,8 @@ function render({ model, el }) {
             }
 
             const selectionLayers = [];
-            console.log(data);
-            for (var i = 0; i < data.length; i++) {
-                console.log(data[i]);
-                selectionLayers.push(createGeoJsonLayer(data[i]));
+            for (const layer of data) {
+                selectionLayers.push(createGeoJsonLayer(layer));
             }
 
             // create map -----------------------------------------------------------------
@@ -203,7 +201,7 @@ function render({ model, el }) {
                 environment: {
                     background: {
                         type: "color",
-                        color: [0, 0, 0, 0]
+                        color: "white"
                     },
                     starsEnabled: false,
                     atmosphereEnabled: false
@@ -213,7 +211,7 @@ function render({ model, el }) {
             const scene = new Map({
                 basemap: "gray-vector", ground: {
                     navigationConstraint: "none",
-                    opacity: 0.1
+                    opacity: 0.8
                 },
             });
             if (model.get("_camera") && Object.keys(model.get("_camera")).length > 0) {
@@ -228,9 +226,7 @@ function render({ model, el }) {
             sceneView.container = div;
 
             for (var layer of selectionLayers) {
-                console.log(layer);
                 scene.add(layer);
-
             }
             selectionLayers[currentSelectionIndex].visible = true;
             // console.log(sceneView.constraints.clipDistance);
@@ -268,8 +264,6 @@ function render({ model, el }) {
                 ev.stopPropagation();
             })
 
-
-
             const sliderDiv = document.createElement("div");
             document.body.appendChild(sliderDiv);
             sliderDiv.style = "width:300px";
@@ -289,9 +283,7 @@ function render({ model, el }) {
                 }
             });
 
-
             function sliderChangeHandler(event) {
-                console.log(slider.values[0] - 1, currentSelectionIndex);
                 if (slider.values[0] - 1 !== currentSelectionIndex) {
                     selectionLayers[currentSelectionIndex].visible = false;
                     currentSelectionIndex = slider.values[0] - 1;
@@ -302,14 +294,12 @@ function render({ model, el }) {
                             console.error(error);
                         });
 
-                    console.log({ center: selectionLayers[currentSelectionIndex].extentCenter });
                 }
                 model.set("selection", currentSelectionIndex);
                 model.save_changes();
             }
 
             slider.on(["thumb-click", "thumb-drag", "thumb-change", "track-click"], sliderChangeHandler);
-
 
             const sliderForward = document.createElement("div");
             sliderForward.classList.add("fa");
@@ -345,17 +335,8 @@ function render({ model, el }) {
                 sliderBack.style.display = "block";
             }
 
-
-
-
             containerDiv.appendChild(div);
             el.appendChild(containerDiv);
-
-
-
-
-            //slider.values=[currentSelectionIndex];
-            //   sliderChangeHandler();
 
             reactiveUtils.when(() => sceneView.stationary === true, () => {
                 if (sceneView.camera) {
@@ -375,9 +356,7 @@ function render({ model, el }) {
                 }
 
                 if (event.action === "start") {
-                    console.log(event);
                     sceneView.hitTest(event).then(({ results }) => {
-                        console.log(results);
                         if (results.length > 0) {
                             dragPos = results[0].mapPoint.clone();
                         } else {
@@ -396,9 +375,6 @@ function render({ model, el }) {
                 }
 
                 if (event.action === "update") {
-                    console.log(event);
-                    console.log([dragPos, dragHeading, dragTilt]);
-                    console.log((dragHeading - (event.origin.x - event.x)) % 360);
                     event.stopPropagation();
                     sceneView.goTo(
                         {
@@ -413,7 +389,6 @@ function render({ model, el }) {
                 }
 
                 if (event.action === "end") {
-                    console.log(event);
                     dragPos = undefined;
                 }
             });
