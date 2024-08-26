@@ -72,32 +72,32 @@ function render({ model, el }) {
         const div = document.createElement("div");
         div.classList.add("arcGisMapContainer");
 
-        const geojson = model.get("geojson");
-
         require([
             "esri/views/SceneView",
             "esri/Map",
+            "esri/Camera",
             "esri/layers/GeoJSONLayer",
             "esri/renderers/SimpleRenderer",
             "esri/symbols/PolygonSymbol3D",
             "esri/widgets/Slider",
             "esri/widgets/Home",
             "esri/widgets/Fullscreen",
+            "esri/core/reactiveUtils",
         ], (
             SceneView,
             Map,
+            Camera,
             GeoJSONLayer,
             SimpleRenderer,
             PolygonSymbol3D,
             Slider,
             Home,
             Fullscreen,
+            reactiveUtils,
         ) => {
 
             console.log("render map");
             const initialViewParams = {
-                zoom: 7,
-                center: [174.777, -41.288],
                 container: div,
                 environment: {
                     background: {
@@ -115,7 +115,12 @@ function render({ model, el }) {
                     opacity: 0.8
                 },
             });
-
+            if (model.get("_camera") && Object.keys(model.get("_camera")).length > 0) {
+                initialViewParams.camera = Camera.fromJSON(model.get("_camera"));
+            } else {
+                initialViewParams.zoom = 7;
+                initialViewParams.center = [174.777, -41.288];
+            }
             initialViewParams.container = null;
             initialViewParams.map = scene;
             const sceneView = new SceneView(initialViewParams);
@@ -223,7 +228,7 @@ function render({ model, el }) {
                 container: sliderDiv,
                 min: 1,
                 max: 2,
-                values: [1,2],
+                values: [1, 2],
                 disabled: true,
                 snapOnClickEnabled: true,
                 steps: 1,
@@ -233,22 +238,22 @@ function render({ model, el }) {
                 }
             });
 
-            var currentSelectionIndex = [1,1];
+            var currentSelectionIndex = [1, 1];
 
             function sliderChangeHandler(event) {
                 console.log(currentSelectionIndex);
                 if (slider.values !== currentSelectionIndex) {
-                    if(currentSelectionIndex.length==1){
+                    if (currentSelectionIndex.length == 1) {
                         scene.remove(selectionLayers[currentSelectionIndex[0] - 1]);
                     } else {
-                        for(var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
+                        for (var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
                             scene.remove(selectionLayers[currentSelectionIndex[i] - 1]);
                         }
                     }
                 }
                 currentSelectionIndex = slider.values;
                 console.log(currentSelectionIndex);
-                for(var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
+                for (var i = currentSelectionIndex[0]; i <= currentSelectionIndex[1]; i++) {
                     scene.add(selectionLayers[i - 1]);
                 }
             }
@@ -280,48 +285,58 @@ function render({ model, el }) {
                 }
             });
 
+            var oldCamera;
 
-            model.on("msg:custom", (msg) => {
-                try {
-                    if (msg?.geojson) {
-                        const layer = createGeoJsonLayer(msg.geojson);
-                        scene.add(layer);
-                    } else if (msg?.selection) {
-                        selectionLayers.push(createGeoJsonLayer(msg.selection));
+            function dataChange() {
+                console.log("dataChange");
+                const newData = model.get("data");
+                console.log(newData);
+                if (newData.length > selectionLayers.length) {
+                    for (var i = selectionLayers.length; i < newData.length; i++) {
+                        selectionLayers.push(createGeoJsonLayer(newData[i]));
                         if (selectionLayers.length == 1) {
                             scene.add(selectionLayers[0]);
                             sceneView.ui.add(slider, "bottom-right");
-                            slider.trackElement.style.height="8px";
                         } else {
                             slider.max = selectionLayers.length;
                             slider.disabled = false;
                         }
-
-                        // const slider = new Slider({
-                        //     container: "sliderDiv",
-                        //     min: 0,
-                        //     max: 100,
-                        //     values: [50],
-                        //     snapOnClickEnabled: false,
-                        //     visibleElements: {
-                        //         labels: true,
-                        //         rangeLabels: true
-                        //     }
-                        // });
-
-                        // sceneView.ui.add(slider, "bottom-right");
                     }
-                } catch (err) {
-                    console.error(err);
                 }
+                // console.log(oldCamera);
+                // if (!oldCamera) {
+                //     if (sceneView.camera) {
+                //         oldCamera = sceneView.camera.toJSON();
+                //     }
+                // } else {
+                //     sceneView.goTo(oldCamera);
+                // }
+                // console.log(oldCamera);
+                // //console.log(JSON.stringify(sceneView.camera.toJSON()));
+            }
+
+            model.on("change:data", dataChange);
+
+            containerDiv.appendChild(div);
+            el.appendChild(containerDiv);
+
+
+            dataChange();
+
+            reactiveUtils.when(() => sceneView.stationary === true, () => {
+                const camera = sceneView.camera.toJSON();
+                model.set("_camera", camera);
+                model.save_changes();
             });
 
+            // const camera = model.get("_camera");
+            // if (camera && Object.keys(camera).length > 0) {
+            //     sceneView.goTo(Camera.fromJSON(camera));
+            // }
 
         });
 
-        containerDiv.appendChild(div);
-        el.appendChild(containerDiv);
-        ;
+
     } catch (err) {
         console.error(err);
     }
