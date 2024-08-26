@@ -345,11 +345,15 @@ function render({ model, el }) {
                         console.log(results);
                         if (results.length > 0) {
                             dragPos = results[0].mapPoint.clone();
-                            dragHeading = sceneView.camera.heading;
-                            dragTilt = sceneView.camera.tilt;
-                            event.stopPropagation();
+                        } else {
+                            dragPos = sceneView.center.clone();
                         }
+                        dragHeading = sceneView.camera.heading;
+                        dragTilt = sceneView.camera.tilt;
+
                     });
+                    event.stopPropagation();
+
                 }
 
                 if (!dragPos) {
@@ -360,13 +364,15 @@ function render({ model, el }) {
                     console.log(event);
                     console.log([dragPos, dragHeading, dragTilt]);
                     console.log((dragHeading - (event.origin.x - event.x)) % 360);
+                    event.stopPropagation();
                     sceneView.goTo(
                         {
                             center: dragPos.clone(),
                             heading: (dragHeading - (event.origin.x - event.x)) % 360,
                             tilt: (dragTilt + (event.origin.y - event.y)) % 360
+                        }, { animate: false }).catch(function (error) {
+                            console.error(error);
                         });
-                    event.stopPropagation();
 
                 }
 
