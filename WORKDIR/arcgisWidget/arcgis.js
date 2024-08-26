@@ -330,11 +330,50 @@ function render({ model, el }) {
                 }
             });
 
-            sceneView.on("click", (event) => {
-                console.log(event);
-                sceneView.hitTest(event).then(({ results }) => {
-                    console.log(results);
-                  });
+            var dragPos;
+            var dragHeading;
+            var dragTilt;
+
+            sceneView.on("drag", (event) => {
+                if (event.button != 2) {
+                    return;
+                }
+
+                if (event.action === "start") {
+                    console.log(event);
+                    sceneView.hitTest(event).then(({ results }) => {
+                        console.log(results);
+                        if (results.length > 0) {
+                            dragPos = results[0].mapPoint.clone();
+                            dragHeading = sceneView.camera.heading;
+                            dragTilt = sceneView.camera.tilt;
+                            event.stopPropagation();
+                        }
+                    });
+                }
+
+                if (!dragPos) {
+                    return;
+                }
+
+                if (event.action === "update") {
+                    console.log(event);
+                    console.log([dragPos, dragHeading, dragTilt]);
+                    console.log((dragHeading - (event.origin.x - event.x)) % 360);
+                    sceneView.goTo(
+                        {
+                            center: dragPos.clone(),
+                            heading: (dragHeading - (event.origin.x - event.x)) % 360,
+                            tilt: (dragTilt + (event.origin.y - event.y)) % 360
+                        });
+                    event.stopPropagation();
+
+                }
+
+                if (event.action === "end") {
+                    console.log(event);
+                    dragPos = undefined;
+                }
             });
 
         });
