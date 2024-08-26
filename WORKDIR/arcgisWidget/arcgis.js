@@ -96,8 +96,108 @@ function render({ model, el }) {
             reactiveUtils,
         ) => {
 
-            console.log("render map");
-            console.log(model);
+            const data = model.get("data");
+            var currentSelectionIndex = Math.min(model.get("selection"), data.length - 1);
+
+
+            // create 3D layers -----------------------------------------------------------------
+
+            console.log("3D layers");
+
+            const createSceneRenderer = (geometryType, geojson) => {
+                // FIXME: handle points, etc
+                const fieldName = geometryType === "Polygon" ? "fill" : "stroke";
+                const colors = getAllGeoJSONProperties(geojson, fieldName);
+                return makeColorRenderer(fieldName, geometryType, colors);
+
+            };
+
+            const template = {
+                title: "Section {FaultID}:{ParentID}",
+                content: "name: <b>{FaultName}</b>",
+            };
+
+            function createGeoJsonLayer(geojson) {
+
+                const objectExtent = {
+                    minLat: Number.MAX_SAFE_INTEGER,
+                    maxLat: Number.MIN_SAFE_INTEGER,
+                    minLon: Number.MAX_SAFE_INTEGER,
+                    maxLon: Number.MIN_SAFE_INTEGER,
+                    minEle: Number.MAX_SAFE_INTEGER,
+                    maxEle: Number.MIN_SAFE_INTEGER,
+                    add([longitude, latitude, elevation]) {
+                        this.minLon = Math.min(this.minLon, longitude);
+                        this.maxLon = Math.max(this.maxLon, longitude);
+                        this.minLat = Math.min(this.minLat, latitude);
+                        this.maxLat = Math.max(this.maxLat, latitude);
+                        this.minEle = Math.min(this.minEle, elevation);
+                        this.maxEle = Math.max(this.maxEle, elevation);
+                    },
+                    center() {
+                        return [
+                            this.minLon + ((this.maxLon - this.minLon) / 2),
+                            this.minLat + ((this.maxLat - this.minLat) / 2),
+                            this.minEle + ((this.maxEle - this.minEle) / 2),
+                        ];
+                    }
+                }
+
+                //arcgis expects elevation in meters
+                for (const feature of geojson.features) {
+                    if (feature.geometry.type === 'Polygon') {
+                        const coords = feature.geometry.coordinates[0];
+                        for (var i = 0; i < coords.length; i++) {
+                            const [lon, lat, ele] = coords[i];
+                            const newCoord = [lon, lat, ele * -1000];
+                            coords[i] = newCoord;
+                            objectExtent.add(newCoord);
+                        }
+                    }
+                    if (feature.geometry.type === 'LineString') {
+                        const coords = feature.geometry.coordinates;
+                        for (var i = 0; i < coords.length; i++) {
+                            const [lon, lat, ele] = coords[i];
+                            const newCoord = [lon, lat, ele * -1000];
+                            coords[i] = newCoord;
+                            objectExtent.add(newCoord);
+                        }
+                    }
+                }
+
+                // create a new blob from geojson featurecollection
+                const blob = new Blob([JSON.stringify(geojson)], {
+                    type: "application/json"
+                });
+
+                // URL reference to the blob
+                const url = URL.createObjectURL(blob);
+
+                const renderer = createSceneRenderer(geojson.features[0].geometry.type, geojson);
+
+                const layer = new GeoJSONLayer({
+                    url,
+                    elevationInfo: { mode: "absolute-height" },
+                    hasZ: true,
+                    renderer: renderer,
+                    popupTemplate: template,
+                    visible: false,
+                });
+                layer.extentCenter = objectExtent.center();
+                return layer;
+            }
+
+            const selectionLayers = [];
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                selectionLayers.push(createGeoJsonLayer(data[i]));
+            }
+
+            // create map -----------------------------------------------------------------
+
+            console.log("create map");
+
             const initialViewParams = {
                 container: div,
                 environment: {
@@ -106,26 +206,33 @@ function render({ model, el }) {
                         color: [0, 0, 0, 0]
                     },
                     starsEnabled: false,
-                    atmosphereEnabled: true
+                    atmosphereEnabled: false
                 }
             };
 
             const scene = new Map({
                 basemap: "gray-vector", ground: {
                     navigationConstraint: "none",
-                    opacity: 0.8
+                    opacity: 0.1
                 },
             });
             if (model.get("_camera") && Object.keys(model.get("_camera")).length > 0) {
                 initialViewParams.camera = Camera.fromJSON(model.get("_camera"));
             } else {
                 initialViewParams.zoom = 7;
-                initialViewParams.center = [174.777, -41.288];
+                initialViewParams.center = selectionLayers[currentSelectionIndex].extentCenter || [174.777, -41.288];
             }
             initialViewParams.container = null;
             initialViewParams.map = scene;
             const sceneView = new SceneView(initialViewParams);
             sceneView.container = div;
+
+            for (var layer of selectionLayers) {
+                console.log(layer);
+                scene.add(layer);
+
+            }
+            selectionLayers[currentSelectionIndex].visible = true;
             // console.log(sceneView.constraints.clipDistance);
 
             // sceneView.constraints.clipDistance.watch("near", function (newValue, oldValue, propertyName, target) {
@@ -162,67 +269,6 @@ function render({ model, el }) {
             })
 
 
-            const createSceneRenderer = (geometryType, geojson) => {
-
-                // FIXME: handle points, etc
-                const fieldName = geometryType === "Polygon" ? "fill" : "stroke";
-
-                const colors = getAllGeoJSONProperties(geojson, fieldName);
-
-                console.log("colors");
-                console.log(colors);
-
-                return makeColorRenderer(fieldName, geometryType, colors);
-
-            };
-
-            const template = {
-                title: "Section {FaultID}:{ParentID}",
-                content: "name: <b>{FaultName}</b>",
-            };
-
-            function createGeoJsonLayer(geojson) {
-                //arcgis expects elevation in meters
-                for (const feature of geojson.features) {
-                    if (feature.geometry.type === 'Polygon') {
-                        const coords = feature.geometry.coordinates[0];
-                        for (var i = 0; i < coords.length; i++) {
-                            const [lon, lat, ele] = coords[i];
-                            coords[i] = [lon, lat, ele * -1000];
-                        }
-                    }
-                    if (feature.geometry.type === 'LineString') {
-                        const coords = feature.geometry.coordinates;
-                        for (var i = 0; i < coords.length; i++) {
-                            const [lon, lat, ele] = coords[i];
-                            coords[i] = [lon, lat, ele * -1000];
-                        }
-                    }
-                }
-
-                //                console.log(geojson);
-
-                // create a new blob from geojson featurecollection
-                const blob = new Blob([JSON.stringify(geojson)], {
-                    type: "application/json"
-                });
-
-                // URL reference to the blob
-                const url = URL.createObjectURL(blob);
-
-                const renderer = createSceneRenderer(geojson.features[0].geometry.type, geojson);
-
-                const layer = new GeoJSONLayer({
-                    url,
-                    elevationInfo: { mode: "absolute-height" },
-                    hasZ: true,
-                    renderer: renderer,
-                    popupTemplate: template,
-                });
-                return layer;
-            }
-
-            const selectionLayers = [];
 
             const sliderDiv = document.createElement("div");
             document.body.appendChild(sliderDiv);
@@ -243,16 +289,20 @@ function render({ model, el }) {
                 }
             });
 
-            var currentSelectionIndex = model.get("selection");
-
 
             function sliderChangeHandler(event) {
+                console.log(slider.values[0] - 1, currentSelectionIndex);
                 if (slider.values[0] - 1 !== currentSelectionIndex) {
-                    scene.remove(selectionLayers[currentSelectionIndex]);
-                }
-                currentSelectionIndex = slider.values[0] - 1;
-                if (selectionLayers.length > currentSelectionIndex) {
-                    scene.add(selectionLayers[currentSelectionIndex]);
+                    selectionLayers[currentSelectionIndex].visible = false;
+                    currentSelectionIndex = slider.values[0] - 1;
+                    selectionLayers[currentSelectionIndex].visible = true;
+
+                    sceneView.goTo({ center: selectionLayers[currentSelectionIndex].extentCenter.slice(0, 2) }, { animate: true })
+                        .catch(function (error) {
+                            console.error(error);
+                        });
+
+                    console.log({ center: selectionLayers[currentSelectionIndex].extentCenter });
                 }
                 model.set("selection", currentSelectionIndex);
                 model.save_changes();
@@ -285,39 +335,24 @@ function render({ model, el }) {
                 }
             });
 
-            function dataChange() {
-                console.log("dataChange");
-                const newData = model.get("data");
-                if (newData.length > selectionLayers.length) {
-                    for (var i = selectionLayers.length; i < newData.length; i++) {
-                        const layer = createGeoJsonLayer(newData[i]);
-                        selectionLayers.push(layer);
-                    }
-                    if (selectionLayers.length > currentSelectionIndex) {
-                        scene.add(selectionLayers[currentSelectionIndex]);
-                    }
-
-                    if (selectionLayers.length > 1) {
-                        sceneView.ui.add(slider, "bottom-right");
-                        slider.values = [model.get("selection") + 1];
-                        slider.max = selectionLayers.length;
-                        slider.disabled = false;
-                        slider.visible = true;
-                        sliderForward.style.display = "block";
-                        sliderBack.style.display = "block";
-                    }
-
-                }
+            if (selectionLayers.length > 1) {
+                sceneView.ui.add(slider, "bottom-right");
+                slider.values = [currentSelectionIndex + 1];
+                slider.max = selectionLayers.length;
+                slider.disabled = false;
+                slider.visible = true;
+                sliderForward.style.display = "block";
+                sliderBack.style.display = "block";
             }
 
 
-            model.on("change:data", dataChange);
+
 
             containerDiv.appendChild(div);
             el.appendChild(containerDiv);
 
 
-            dataChange();
+
 
             //slider.values=[currentSelectionIndex];
             //   sliderChangeHandler();
@@ -370,7 +405,8 @@ function render({ model, el }) {
                             center: dragPos.clone(),
                             heading: (dragHeading - (event.origin.x - event.x)) % 360,
                             tilt: (dragTilt + (event.origin.y - event.y)) % 360
-                        }, { animate: false }).catch(function (error) {
+                        }, { animate: false })
+                        .catch(function (error) {
                             console.error(error);
                         });
 
