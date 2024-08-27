@@ -113,8 +113,8 @@ function render({ model, el }) {
             };
 
             const template = {
-                title: "Section {FaultID}:{ParentID}",
-                content: "name: <b>{FaultName}</b>",
+                title: "Section or Patch",
+                content: "<ul><li>fault id: {FaultID}</li><li>patch id: {patch_id}</li><li> fault name: {FaultName}</li></ul>",
             };
 
             function createGeoJsonLayer(geojson) {
