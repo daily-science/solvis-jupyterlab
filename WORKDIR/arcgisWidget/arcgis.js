@@ -343,6 +343,22 @@ function render({ model, el }) {
                 sliderBack.style.display = "block";
             }
 
+
+            const showGlobeButton = document.createElement("div");
+            showGlobeButton.classList.add("fa");
+            showGlobeButton.classList.add("fa-globe");
+            showGlobeButton.classList.add("sliderControlButton");
+            sceneView.ui.add(showGlobeButton, "top-right");
+            showGlobeButton.style.display = "block";
+
+            showGlobeButton.addEventListener("click", function (event) {
+                if (scene.ground.opacity > 0.7) {
+                    scene.ground.opacity = 0;
+                } else {
+                    scene.ground.opacity = 0.8
+                }
+            });
+
             containerDiv.appendChild(div);
             el.appendChild(containerDiv);
 
