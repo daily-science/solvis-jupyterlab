@@ -1,0 +1,2865 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2354,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 8, row: 0",
+        "DipDeg": 30.351423263549805,
+        "Rake": 90.0,
+        "LowDepth": 20.084606170654297,
+        "UpDepth": 12.505071640014648,
+        "DipDir": 129.12167,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.0888590812683105,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.7173309326172,
+              -45.22400665283203,
+              12.505071640014648
+            ],
+            [
+              166.84571840747302,
+              -45.29738547575725,
+              20.084606170654297
+            ],
+            [
+              166.96570674186867,
+              -45.193015620115645,
+              20.084606170654297
+            ],
+            [
+              166.83755493164062,
+              -45.11963653564453,
+              12.505071640014648
+            ],
+            [
+              166.7173309326172,
+              -45.22400665283203,
+              12.505071640014648
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2355,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 8, row: 1",
+        "DipDeg": 35.44356155395508,
+        "Rake": 90.0,
+        "LowDepth": 27.922513961791992,
+        "UpDepth": 19.224002838134766,
+        "DipDir": 128.03137,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.099305152893066,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.86447143554688,
+              -45.28123092651367,
+              19.224002838134766
+            ],
+            [
+              166.98764529658874,
+              -45.34887322658133,
+              27.922513961791992
+            ],
+            [
+              167.10493850508414,
+              -45.24289355158836,
+              27.922513961791992
+            ],
+            [
+              166.98199462890625,
+              -45.175251007080085,
+              19.224002838134766
+            ],
+            [
+              166.86447143554688,
+              -45.28123092651367,
+              19.224002838134766
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2356,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 8, row: 2",
+        "DipDeg": 47.146183013916016,
+        "Rake": 90.0,
+        "LowDepth": 39.494991302490234,
+        "UpDepth": 28.498620986938477,
+        "DipDir": 123.11727,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.110705852508545,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.99856567382812,
+              -45.33830642700196,
+              28.498620986938477
+            ],
+            [
+              167.10798390647628,
+              -45.3883812948217,
+              39.494991302490234
+            ],
+            [
+              167.21212120875524,
+              -45.275661010455906,
+              39.494991302490234
+            ],
+            [
+              167.10292053222656,
+              -45.2255859375,
+              28.498620986938477
+            ],
+            [
+              166.99856567382812,
+              -45.33830642700196,
+              28.498620986938477
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2358,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 9, row: 0",
+        "DipDeg": 25.2558650970459,
+        "Rake": 90.0,
+        "LowDepth": 17.707515716552734,
+        "UpDepth": 11.307595252990723,
+        "DipDir": 128.73676,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.140859127044678,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.556396484375,
+              -45.31604385375977,
+              11.307595252990723
+            ],
+            [
+              166.69191289718688,
+              -45.39230658964571,
+              17.707515716552734
+            ],
+            [
+              166.81106203652075,
+              -45.287387448978855,
+              17.707515716552734
+            ],
+            [
+              166.67579650878906,
+              -45.211124420166016,
+              11.307595252990723
+            ],
+            [
+              166.556396484375,
+              -45.31604385375977,
+              11.307595252990723
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2359,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 9, row: 1",
+        "DipDeg": 31.318626403808594,
+        "Rake": 90.0,
+        "LowDepth": 24.99388885498047,
+        "UpDepth": 17.196935653686523,
+        "DipDir": 127.45746,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.1513590812683105,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.70816040039062,
+              -45.3754997253418,
+              17.196935653686523
+            ],
+            [
+              166.8385501277414,
+              -45.445512639253344,
+              24.99388885498047
+            ],
+            [
+              166.954499650147,
+              -45.33871665062866,
+              24.99388885498047
+            ],
+            [
+              166.82435607910156,
+              -45.26870346069336,
+              17.196935653686523
+            ],
+            [
+              166.70816040039062,
+              -45.3754997253418,
+              17.196935653686523
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2360,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 9, row: 2",
+        "DipDeg": 41.620079040527344,
+        "Rake": 90.0,
+        "LowDepth": 35.730220794677734,
+        "UpDepth": 25.767398834228516,
+        "DipDir": 122.4215,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.1629109382629395,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.84844970703125,
+              -45.43507385253906,
+              25.767398834228516
+            ],
+            [
+              166.96987709491648,
+              -45.48907703462573,
+              35.730220794677734
+            ],
+            [
+              167.07220251972402,
+              -45.375483234038626,
+              35.730220794677734
+            ],
+            [
+              166.95101928710938,
+              -45.32147979736328,
+              25.767398834228516
+            ],
+            [
+              166.84844970703125,
+              -45.43507385253906,
+              25.767398834228516
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2361,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 9, row: 3",
+        "DipDeg": 55.04154586791992,
+        "Rake": 90.0,
+        "LowDepth": 47.53062057495117,
+        "UpDepth": 35.23710250854492,
+        "DipDir": 122.35813,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.172696113586426,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.98175048828125,
+              -45.48579025268555,
+              35.23710250854492
+            ],
+            [
+              167.0749485809093,
+              -45.52712099697328,
+              47.53062057495117
+            ],
+            [
+              167.17725407305835,
+              -45.413435539158705,
+              47.53062057495117
+            ],
+            [
+              167.08424377441406,
+              -45.37210464477539,
+              35.23710250854492
+            ],
+            [
+              166.98175048828125,
+              -45.48579025268555,
+              35.23710250854492
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2362,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 10, row: 0",
+        "DipDeg": 23.161155700683594,
+        "Rake": 90.0,
+        "LowDepth": 17.39460563659668,
+        "UpDepth": 11.49482536315918,
+        "DipDir": 127.45963,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.196325778961182,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.43992614746094,
+              -45.42650604248047,
+              11.49482536315918
+            ],
+            [
+              166.5803902004084,
+              -45.50185270033486,
+              17.39460563659668
+            ],
+            [
+              166.69639656157122,
+              -45.39509108818227,
+              17.39460563659668
+            ],
+            [
+              166.5561981201172,
+              -45.319744110107415,
+              11.49482536315918
+            ],
+            [
+              166.43992614746094,
+              -45.42650604248047,
+              11.49482536315918
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2363,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 10, row: 1",
+        "DipDeg": 29.796323776245117,
+        "Rake": 90.0,
+        "LowDepth": 24.574838638305664,
+        "UpDepth": 17.121063232421875,
+        "DipDir": 126.86947,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.206437110900879,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.59323120117188,
+              -45.48563003540039,
+              17.121063232421875
+            ],
+            [
+              166.72697869114697,
+              -45.55578989091375,
+              24.574838638305664
+            ],
+            [
+              166.84156093734427,
+              -45.44817757368705,
+              24.574838638305664
+            ],
+            [
+              166.70806884765625,
+              -45.37801742553711,
+              17.121063232421875
+            ],
+            [
+              166.59323120117188,
+              -45.48563003540039,
+              17.121063232421875
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2364,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 10, row: 2",
+        "DipDeg": 43.27016067504883,
+        "Rake": 90.0,
+        "LowDepth": 35.36771011352539,
+        "UpDepth": 25.08612060546875,
+        "DipDir": 122.80823,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.217895030975342,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.7381591796875,
+              -45.54610443115235,
+              25.08612060546875
+            ],
+            [
+              166.8561509913179,
+              -45.59926397482714,
+              35.36771011352539
+            ],
+            [
+              166.95976519346823,
+              -45.4861698843221,
+              35.36771011352539
+            ],
+            [
+              166.84201049804688,
+              -45.43301010131836,
+              25.08612060546875
+            ],
+            [
+              166.7381591796875,
+              -45.54610443115235,
+              25.08612060546875
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2365,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 10, row: 3",
+        "DipDeg": 53.44282531738281,
+        "Rake": 90.0,
+        "LowDepth": 46.71624755859375,
+        "UpDepth": 34.66730499267578,
+        "DipDir": 122.5496,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.227386951446533,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.8702392578125,
+              -45.59642028808594,
+              34.66730499267578
+            ],
+            [
+              166.96710843865165,
+              -45.63960930262748,
+              46.71624755859375
+            ],
+            [
+              167.07013862082863,
+              -45.52617562653023,
+              46.71624755859375
+            ],
+            [
+              166.9734649658203,
+              -45.482986450195305,
+              34.66730499267578
+            ],
+            [
+              166.8702392578125,
+              -45.59642028808594,
+              34.66730499267578
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2366,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 11, row: 0",
+        "DipDeg": 20.174720764160156,
+        "Rake": 90.0,
+        "LowDepth": 15.573443412780762,
+        "UpDepth": 10.400181770324707,
+        "DipDir": 127.15062,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.248273849487305,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.26986694335938,
+              -45.51530456542969,
+              10.400181770324707
+            ],
+            [
+              166.41409171848719,
+              -45.591682172066406,
+              15.573443412780762
+            ],
+            [
+              166.52943290256593,
+              -45.48449714722813,
+              15.573443412780762
+            ],
+            [
+              166.38548278808594,
+              -45.40811920166016,
+              10.400181770324707
+            ],
+            [
+              166.26986694335938,
+              -45.51530456542969,
+              10.400181770324707
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2367,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 11, row: 1",
+        "DipDeg": 26.435314178466797,
+        "Rake": 90.0,
+        "LowDepth": 21.22519302368164,
+        "UpDepth": 14.547385215759277,
+        "DipDir": 126.83684,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.258444786071777,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.43247985839844,
+              -45.5776710510254,
+              14.547385215759277
+            ],
+            [
+              166.57077831186896,
+              -45.6500076068347,
+              21.22519302368164
+            ],
+            [
+              166.68544245746966,
+              -45.5423571629977,
+              21.22519302368164
+            ],
+            [
+              166.5474090576172,
+              -45.47002029418945,
+              14.547385215759277
+            ],
+            [
+              166.43247985839844,
+              -45.5776710510254,
+              14.547385215759277
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2368,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 11, row: 2",
+        "DipDeg": 33.611328125,
+        "Rake": 90.0,
+        "LowDepth": 29.406362533569336,
+        "UpDepth": 21.103017807006836,
+        "DipDir": 122.797165,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.26979398727417,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.58306884765625,
+              -45.6400375366211,
+              21.103017807006836
+            ],
+            [
+              166.71828588550363,
+              -45.70081123395722,
+              29.406362533569336
+            ],
+            [
+              166.82198659642924,
+              -45.587724847801525,
+              29.406362533569336
+            ],
+            [
+              166.68704223632812,
+              -45.52695083618163,
+              21.103017807006836
+            ],
+            [
+              166.58306884765625,
+              -45.6400375366211,
+              21.103017807006836
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2369,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 11, row: 3",
+        "DipDeg": 48.94143295288086,
+        "Rake": 90.0,
+        "LowDepth": 41.39670944213867,
+        "UpDepth": 30.086132049560547,
+        "DipDir": 121.76137,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.279585838317871,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.7191162109375,
+              -45.69301986694336,
+              30.086132049560547
+            ],
+            [
+              166.8270602252516,
+              -45.73960926629089,
+              41.39670944213867
+            ],
+            [
+              166.9279902348653,
+              -45.62520669790902,
+              41.39670944213867
+            ],
+            [
+              166.8202667236328,
+              -45.578617095947266,
+              30.086132049560547
+            ],
+            [
+              166.7191162109375,
+              -45.69301986694336,
+              30.086132049560547
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2371,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 12, row: 0",
+        "DipDeg": 18.30327033996582,
+        "Rake": 90.0,
+        "LowDepth": 14.641524314880371,
+        "UpDepth": 9.930825233459473,
+        "DipDir": 127.404686,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.301413059234619,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.11984252929688,
+              -45.610923767089844,
+              9.930825233459473
+            ],
+            [
+              166.26548114751185,
+              -45.68862824373176,
+              14.641524314880371
+            ],
+            [
+              166.3816741695748,
+              -45.581820879382846,
+              14.641524314880371
+            ],
+            [
+              166.23631286621094,
+              -45.50411605834961,
+              9.930825233459473
+            ],
+            [
+              166.11984252929688,
+              -45.610923767089844,
+              9.930825233459473
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2372,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 12, row: 1",
+        "DipDeg": 22.714794158935547,
+        "Rake": 90.0,
+        "LowDepth": 19.442787170410156,
+        "UpDepth": 13.650623321533203,
+        "DipDir": 127.194275,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.311227798461914,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.28366088867188,
+              -45.673606872558594,
+              13.650623321533203
+            ],
+            [
+              166.42571163511766,
+              -45.74874243160757,
+              19.442787170410156
+            ],
+            [
+              166.54149813262083,
+              -45.64161843159424,
+              19.442787170410156
+            ],
+            [
+              166.39971923828125,
+              -45.566482543945305,
+              13.650623321533203
+            ],
+            [
+              166.28366088867188,
+              -45.673606872558594,
+              13.650623321533203
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2373,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 12, row: 2",
+        "DipDeg": 30.20681381225586,
+        "Rake": 90.0,
+        "LowDepth": 26.86458969116211,
+        "UpDepth": 19.3177490234375,
+        "DipDir": 119.62203,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.324071884155273,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.44029235839844,
+              -45.742919921875,
+              19.3177490234375
+            ],
+            [
+              166.58566000301659,
+              -45.800450997277636,
+              26.86458969116211
+            ],
+            [
+              166.68040283088027,
+              -45.68350801350265,
+              26.86458969116211
+            ],
+            [
+              166.53533935546875,
+              -45.6259765625,
+              19.3177490234375
+            ],
+            [
+              166.44029235839844,
+              -45.742919921875,
+              19.3177490234375
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2374,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 12, row: 3",
+        "DipDeg": 46.138336181640625,
+        "Rake": 90.0,
+        "LowDepth": 38.556339263916016,
+        "UpDepth": 27.741117477416992,
+        "DipDir": 118.613464,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.333600044250488,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.58090209960938,
+              -45.79692459106445,
+              27.741117477416992
+            ],
+            [
+              166.69869203003122,
+              -45.841628401177644,
+              38.556339263916016
+            ],
+            [
+              166.79063634992715,
+              -45.72351417881337,
+              38.556339263916016
+            ],
+            [
+              166.673095703125,
+              -45.678810119628906,
+              27.741117477416992
+            ],
+            [
+              166.58090209960938,
+              -45.79692459106445,
+              27.741117477416992
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2376,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 13, row: 0",
+        "DipDeg": 16.998668670654297,
+        "Rake": 90.0,
+        "LowDepth": 13.695937156677246,
+        "UpDepth": 9.310694694519043,
+        "DipDir": 127.50947,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.3555908203125,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.984375,
+              -45.71231460571288,
+              9.310694694519043
+            ],
+            [
+              166.13113555122774,
+              -45.79077068463265,
+              13.695937156677246
+            ],
+            [
+              166.24779889146325,
+              -45.68412735705423,
+              13.695937156677246
+            ],
+            [
+              166.10131835937503,
+              -45.60567092895507,
+              9.310694694519043
+            ],
+            [
+              165.984375,
+              -45.71231460571288,
+              9.310694694519043
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2377,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 13, row: 1",
+        "DipDeg": 19.774154663085938,
+        "Rake": 90.0,
+        "LowDepth": 17.943401336669922,
+        "UpDepth": 12.868699073791504,
+        "DipDir": 127.00685,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.365243911743164,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.14862060546875,
+              -45.77560806274413,
+              12.868699073791504
+            ],
+            [
+              166.2941631402245,
+              -45.85192445825215,
+              17.943401336669922
+            ],
+            [
+              166.40963611996978,
+              -45.74454870537942,
+              17.943401336669922
+            ],
+            [
+              166.2643737792969,
+              -45.66823196411133,
+              12.868699073791504
+            ],
+            [
+              166.14862060546875,
+              -45.77560806274413,
+              12.868699073791504
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2378,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 13, row: 2",
+        "DipDeg": 29.73220443725586,
+        "Rake": 90.0,
+        "LowDepth": 25.202442169189453,
+        "UpDepth": 17.76323890686035,
+        "DipDir": 119.15337,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.378404140472412,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.3113250732422,
+              -45.847835540771484,
+              17.76323890686035
+            ],
+            [
+              166.458338789282,
+              -45.904805583188754,
+              25.202442169189453
+            ],
+            [
+              166.55187022124665,
+              -45.78733618146819,
+              25.202442169189453
+            ],
+            [
+              166.40516662597656,
+              -45.730365753173835,
+              17.76323890686035
+            ],
+            [
+              166.3113250732422,
+              -45.847835540771484,
+              17.76323890686035
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2379,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 13, row: 3",
+        "DipDeg": 40.65445327758789,
+        "Rake": 90.0,
+        "LowDepth": 35.491695404052734,
+        "UpDepth": 25.719261169433594,
+        "DipDir": 114.38515,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.389273166656494,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.45838928222656,
+              -45.90788650512695,
+              25.719261169433594
+            ],
+            [
+              166.59245094090932,
+              -45.950061434364876,
+              35.491695404052734
+            ],
+            [
+              166.67179113983224,
+              -45.827526063484804,
+              35.491695404052734
+            ],
+            [
+              166.53802490234378,
+              -45.78535079956055,
+              25.719261169433594
+            ],
+            [
+              166.45838928222656,
+              -45.90788650512695,
+              25.719261169433594
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2380,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 13, row: 4",
+        "DipDeg": 47.58453369140625,
+        "Rake": 90.0,
+        "LowDepth": 47.46692657470703,
+        "UpDepth": 36.392826080322266,
+        "DipDir": 108.324425,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.39896821975708,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.58412170410156,
+              -45.95895767211913,
+              36.392826080322266
+            ],
+            [
+              166.70843548198073,
+              -45.98749698623201,
+              47.46692657470703
+            ],
+            [
+              166.7688642713211,
+              -45.859746889506035,
+              47.46692657470703
+            ],
+            [
+              166.64483642578128,
+              -45.831207275390625,
+              36.392826080322266
+            ],
+            [
+              166.58412170410156,
+              -45.95895767211913,
+              36.392826080322266
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2382,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 14, row: 0",
+        "DipDeg": 16.193513870239258,
+        "Rake": 90.0,
+        "LowDepth": 13.120616912841797,
+        "UpDepth": 8.93738079071045,
+        "DipDir": 128.34474,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.409070014953613,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.83975219726562,
+              -45.809158325195305,
+              8.93738079071045
+            ],
+            [
+              165.98572256152553,
+              -45.889434772386956,
+              13.120616912841797
+            ],
+            [
+              166.10478526910083,
+              -45.784012140234815,
+              13.120616912841797
+            ],
+            [
+              165.95909118652347,
+              -45.70373535156251,
+              8.93738079071045
+            ],
+            [
+              165.83975219726562,
+              -45.809158325195305,
+              8.93738079071045
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2383,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 14, row: 1",
+        "DipDeg": 17.722530364990234,
+        "Rake": 90.0,
+        "LowDepth": 17.00351905822754,
+        "UpDepth": 12.43740463256836,
+        "DipDir": 127.09722,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.418758869171143,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.00442504882812,
+              -45.87381362915039,
+              12.43740463256836
+            ],
+            [
+              166.15183556483726,
+              -45.95122383228836,
+              17.00351905822754
+            ],
+            [
+              166.26773159299984,
+              -45.843993046363764,
+              17.00351905822754
+            ],
+            [
+              166.12060546875,
+              -45.76658248901367,
+              12.43740463256836
+            ],
+            [
+              166.00442504882812,
+              -45.87381362915039,
+              12.43740463256836
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2384,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 14, row: 2",
+        "DipDeg": 24.688629150390625,
+        "Rake": 90.0,
+        "LowDepth": 22.806013107299805,
+        "UpDepth": 16.54071044921875,
+        "DipDir": 120.825676,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.431210994720459,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.16989135742188,
+              -45.94537353515625,
+              16.54071044921875
+            ],
+            [
+              166.3214300367898,
+              -46.00808031423582,
+              22.806013107299805
+            ],
+            [
+              166.4199763226318,
+              -45.89259838698482,
+              22.806013107299805
+            ],
+            [
+              166.2687530517578,
+              -45.829891204833984,
+              16.54071044921875
+            ],
+            [
+              166.16989135742188,
+              -45.94537353515625,
+              16.54071044921875
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2385,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 14, row: 3",
+        "DipDeg": 33.57645034790039,
+        "Rake": 90.0,
+        "LowDepth": 31.194942474365234,
+        "UpDepth": 22.899206161499023,
+        "DipDir": 113.3482,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.443851947784424,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.3296356201172,
+              -46.01389694213867,
+              22.899206161499023
+            ],
+            [
+              166.4783359243888,
+              -46.05834280861903,
+              31.194942474365234
+            ],
+            [
+              166.55458825455128,
+              -45.934830955591345,
+              31.194942474365234
+            ],
+            [
+              166.40621948242188,
+              -45.890384674072266,
+              22.899206161499023
+            ],
+            [
+              166.3296356201172,
+              -46.01389694213867,
+              22.899206161499023
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2386,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 14, row: 4",
+        "DipDeg": 40.13473892211914,
+        "Rake": 90.0,
+        "LowDepth": 40.95893859863281,
+        "UpDepth": 31.290128707885742,
+        "DipDir": 105.93143,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.455611228942871,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.47918701171875,
+              -46.07549285888672,
+              31.290128707885742
+            ],
+            [
+              166.62221979311212,
+              -46.103712526134586,
+              40.95893859863281
+            ],
+            [
+              166.67500106721383,
+              -45.97431458244744,
+              40.95893859863281
+            ],
+            [
+              166.53230285644534,
+              -45.94609451293945,
+              31.290128707885742
+            ],
+            [
+              166.47918701171875,
+              -46.07549285888672,
+              31.290128707885742
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2389,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 15, row: 0",
+        "DipDeg": 15.16496753692627,
+        "Rake": 90.0,
+        "LowDepth": 11.634119033813477,
+        "UpDepth": 7.710133075714111,
+        "DipDir": 128.61104,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.462079048156738,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.67906188964844,
+              -45.90065002441407,
+              7.710133075714111
+            ],
+            [
+              165.82547237012798,
+              -45.98180565065443,
+              11.634119033813477
+            ],
+            [
+              165.94540418455722,
+              -45.876795006527175,
+              11.634119033813477
+            ],
+            [
+              165.7992706298828,
+              -45.795639038085945,
+              7.710133075714111
+            ],
+            [
+              165.67906188964844,
+              -45.90065002441407,
+              7.710133075714111
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2390,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 15, row: 1",
+        "DipDeg": 15.726366996765137,
+        "Rake": 90.0,
+        "LowDepth": 15.252795219421387,
+        "UpDepth": 11.18714427947998,
+        "DipDir": 127.547264,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.471319198608398,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.84327697753906,
+              -45.96503448486328,
+              11.18714427947998
+            ],
+            [
+              165.99159819798152,
+              -46.04407032020137,
+              15.252795219421387
+            ],
+            [
+              166.10886659348424,
+              -45.93749947908895,
+              15.252795219421387
+            ],
+            [
+              165.96083068847656,
+              -45.858463287353516,
+              11.18714427947998
+            ],
+            [
+              165.84327697753906,
+              -45.96503448486328,
+              11.18714427947998
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2391,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 15, row: 2",
+        "DipDeg": 19.020660400390625,
+        "Rake": 90.0,
+        "LowDepth": 20.185901641845703,
+        "UpDepth": 15.297266006469727,
+        "DipDir": 121.10548,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.483549118041992,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.0091552734375,
+              -46.037261962890625,
+              15.297266006469727
+            ],
+            [
+              166.16664245461595,
+              -46.103039275967646,
+              20.185901641845703
+            ],
+            [
+              166.26613757171447,
+              -45.98790833180727,
+              20.185901641845703
+            ],
+            [
+              166.1089782714844,
+              -45.9221305847168,
+              15.297266006469727
+            ],
+            [
+              166.0091552734375,
+              -46.037261962890625,
+              15.297266006469727
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2392,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 15, row: 3",
+        "DipDeg": 26.27191162109375,
+        "Rake": 90.0,
+        "LowDepth": 26.907455444335938,
+        "UpDepth": 20.267980575561523,
+        "DipDir": 116.74557,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.495010852813721,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.17108154296875,
+              -46.10388565063477,
+              20.267980575561523
+            ],
+            [
+              166.32703215666564,
+              -46.15821685159426,
+              26.907455444335938
+            ],
+            [
+              166.41377474769766,
+              -46.03811155211773,
+              26.907455444335938
+            ],
+            [
+              166.25816345214844,
+              -45.98377990722656,
+              20.267980575561523
+            ],
+            [
+              166.17108154296875,
+              -46.10388565063477,
+              20.267980575561523
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2393,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 15, row: 4",
+        "DipDeg": 32.42345428466797,
+        "Rake": 90.0,
+        "LowDepth": 35.813480377197266,
+        "UpDepth": 27.77089500427246,
+        "DipDir": 109.12917,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.5073747634887695,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.32557678222656,
+              -46.16943359375,
+              27.77089500427246
+            ],
+            [
+              166.4810274425601,
+              -46.20664292418254,
+              35.813480377197266
+            ],
+            [
+              166.54417603007843,
+              -46.07953386334501,
+              35.813480377197266
+            ],
+            [
+              166.3890838623047,
+              -46.04232406616211,
+              27.77089500427246
+            ],
+            [
+              166.32557678222656,
+              -46.16943359375,
+              27.77089500427246
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2394,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 15, row: 5",
+        "DipDeg": 35.481422424316406,
+        "Rake": 90.0,
+        "LowDepth": 44.75226593017578,
+        "UpDepth": 36.04568099975586,
+        "DipDir": 99.78669,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.520343780517578,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.47996520996094,
+              -46.23368835449219,
+              36.04568099975586
+            ],
+            [
+              166.63651174328407,
+              -46.25225357879189,
+              44.75226593017578
+            ],
+            [
+              166.669124035416,
+              -46.119636122168906,
+              44.75226593017578
+            ],
+            [
+              166.51295471191406,
+              -46.101070404052734,
+              36.04568099975586
+            ],
+            [
+              166.47996520996094,
+              -46.23368835449219,
+              36.04568099975586
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2397,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 0",
+        "DipDeg": 13.580056190490723,
+        "Rake": 90.0,
+        "LowDepth": 10.314316749572754,
+        "UpDepth": 6.792259693145752,
+        "DipDir": 127.64019,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.5151262283325195,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.50473022460938,
+              -45.98867797851562,
+              6.792259693145752
+            ],
+            [
+              165.65439129691813,
+              -46.068659597552795,
+              10.314316749572754
+            ],
+            [
+              165.77191671986682,
+              -45.96225660901712,
+              10.314316749572754
+            ],
+            [
+              165.62254333496094,
+              -45.88227462768555,
+              6.792259693145752
+            ],
+            [
+              165.50473022460938,
+              -45.98867797851562,
+              6.792259693145752
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2398,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 1",
+        "DipDeg": 14.612534523010254,
+        "Rake": 90.0,
+        "LowDepth": 13.87984848022461,
+        "UpDepth": 10.095632553100586,
+        "DipDir": 126.68953,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.523989200592041,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.66943359375,
+              -46.05333328247071,
+              10.095632553100586
+            ],
+            [
+              165.8204760846757,
+              -46.13122558120749,
+              13.87984848022461
+            ],
+            [
+              165.9355988637362,
+              -46.02345694249514,
+              13.87984848022461
+            ],
+            [
+              165.78485107421875,
+              -45.945564270019524,
+              10.095632553100586
+            ],
+            [
+              165.66943359375,
+              -46.05333328247071,
+              10.095632553100586
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2399,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 2",
+        "DipDeg": 16.23255729675293,
+        "Rake": 90.0,
+        "LowDepth": 18.171987533569336,
+        "UpDepth": 13.978936195373535,
+        "DipDir": 121.721,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.535211086273193,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.8352508544922,
+              -46.12367630004883,
+              13.978936195373535
+            ],
+            [
+              165.99440256698142,
+              -46.19166563782265,
+              18.171987533569336
+            ],
+            [
+              166.09580278068717,
+              -46.0773128981348,
+              18.171987533569336
+            ],
+            [
+              165.93698120117188,
+              -46.00932312011719,
+              13.978936195373535
+            ],
+            [
+              165.8352508544922,
+              -46.12367630004883,
+              13.978936195373535
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2400,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 3",
+        "DipDeg": 21.32394027709961,
+        "Rake": 90.0,
+        "LowDepth": 23.368247985839844,
+        "UpDepth": 17.91364097595215,
+        "DipDir": 117.41402,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.546629905700684,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.00169372558594,
+              -46.192398071289055,
+              17.91364097595215
+            ],
+            [
+              166.16300901117444,
+              -46.25014202475384,
+              23.368247985839844
+            ],
+            [
+              166.25187718410473,
+              -46.13077299000853,
+              23.368247985839844
+            ],
+            [
+              166.09091186523438,
+              -46.07302856445312,
+              17.91364097595215
+            ],
+            [
+              166.00169372558594,
+              -46.192398071289055,
+              17.91364097595215
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2401,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 4",
+        "DipDeg": 26.280305862426758,
+        "Rake": 90.0,
+        "LowDepth": 30.245899200439453,
+        "UpDepth": 23.604454040527344,
+        "DipDir": 111.79335,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.558647155761719,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.1641082763672,
+              -46.25982284545899,
+              23.604454040527344
+            ],
+            [
+              166.32668239599266,
+              -46.30461340134558,
+              30.245899200439453
+            ],
+            [
+              166.39836472034656,
+              -46.17971689980957,
+              30.245899200439453
+            ],
+            [
+              166.2361602783203,
+              -46.13492584228516,
+              23.604454040527344
+            ],
+            [
+              166.1641082763672,
+              -46.25982284545899,
+              23.604454040527344
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2402,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 5",
+        "DipDeg": 29.334280014038086,
+        "Rake": 90.0,
+        "LowDepth": 37.51375198364258,
+        "UpDepth": 30.16518783569336,
+        "DipDir": 104.85655,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.571338176727295,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.32554626464844,
+              -46.326499938964844,
+              30.16518783569336
+            ],
+            [
+              166.49024478268365,
+              -46.3565346378458,
+              37.51375198364258
+            ],
+            [
+              166.53968937226034,
+              -46.22648451469077,
+              37.51375198364258
+            ],
+            [
+              166.37538146972656,
+              -46.196449279785156,
+              30.16518783569336
+            ],
+            [
+              166.32554626464844,
+              -46.326499938964844,
+              30.16518783569336
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2403,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 16, row: 6",
+        "DipDeg": 31.84698486328125,
+        "Rake": 90.0,
+        "LowDepth": 44.26164627075195,
+        "UpDepth": 36.346858978271484,
+        "DipDir": 97.939804,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.584474086761475,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.49118041992188,
+              -46.392704010009766,
+              36.346858978271484
+            ],
+            [
+              166.65577790664932,
+              -46.40841465521062,
+              44.26164627075195
+            ],
+            [
+              166.68226311629246,
+              -46.275129681398795,
+              44.26164627075195
+            ],
+            [
+              166.51806640625,
+              -46.25941848754883,
+              36.346858978271484
+            ],
+            [
+              166.49118041992188,
+              -46.392704010009766,
+              36.346858978271484
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2407,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 17, row: 1",
+        "DipDeg": 13.578314781188965,
+        "Rake": 90.0,
+        "LowDepth": 12.554563522338867,
+        "UpDepth": 9.032949447631836,
+        "DipDir": 123.916306,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.57890510559082,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.51828002929688,
+              -46.15300369262695,
+              9.032949447631836
+            ],
+            [
+              165.6755718768039,
+              -46.22606273168012,
+              12.554563522338867
+            ],
+            [
+              165.78322448487182,
+              -46.11454810587659,
+              12.554563522338867
+            ],
+            [
+              165.62625122070312,
+              -46.041488647460945,
+              9.032949447631836
+            ],
+            [
+              165.51828002929688,
+              -46.15300369262695,
+              9.032949447631836
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2408,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 17, row: 2",
+        "DipDeg": 15.219914436340332,
+        "Rake": 90.0,
+        "LowDepth": 16.62059783935547,
+        "UpDepth": 12.682729721069336,
+        "DipDir": 118.813385,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.589975833892822,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.685546875,
+              -46.22397994995117,
+              12.682729721069336
+            ],
+            [
+              165.85058700735,
+              -46.28659616825203,
+              16.62059783935547
+            ],
+            [
+              165.94364756167502,
+              -46.168814063066016,
+              16.62059783935547
+            ],
+            [
+              165.77896118164062,
+              -46.106197357177734,
+              12.682729721069336
+            ],
+            [
+              165.685546875,
+              -46.22397994995117,
+              12.682729721069336
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2409,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 17, row: 3",
+        "DipDeg": 18.61663818359375,
+        "Rake": 90.0,
+        "LowDepth": 21.214412689208984,
+        "UpDepth": 16.42589569091797,
+        "DipDir": 117.6921,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.599674224853516,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.85093688964844,
+              -46.2883186340332,
+              16.42589569091797
+            ],
+            [
+              166.0149231146124,
+              -46.34761113178508,
+              21.214412689208984
+            ],
+            [
+              166.10476179850474,
+              -46.22856254606218,
+              21.214412689208984
+            ],
+            [
+              165.94113159179688,
+              -46.16926956176758,
+              16.42589569091797
+            ],
+            [
+              165.85093688964844,
+              -46.2883186340332,
+              16.42589569091797
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2410,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 17, row: 4",
+        "DipDeg": 22.046932220458984,
+        "Rake": 90.0,
+        "LowDepth": 26.60871124267578,
+        "UpDepth": 20.978221893310547,
+        "DipDir": 113.71348,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.611034870147705,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.0164031982422,
+              -46.35554885864258,
+              20.978221893310547
+            ],
+            [
+              166.1824209636178,
+              -46.405712836835505,
+              26.60871124267578
+            ],
+            [
+              166.2602182372498,
+              -46.28258255422491,
+              26.60871124267578
+            ],
+            [
+              166.09457397460938,
+              -46.23241806030274,
+              20.978221893310547
+            ],
+            [
+              166.0164031982422,
+              -46.35554885864258,
+              20.978221893310547
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2411,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 17, row: 5",
+        "DipDeg": 25.561906814575195,
+        "Rake": 90.0,
+        "LowDepth": 33.2550048828125,
+        "UpDepth": 26.782712936401367,
+        "DipDir": 107.62964,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.623446941375732,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.18011474609375,
+              -46.42314147949219,
+              26.782712936401367
+            ],
+            [
+              166.34847758723382,
+              -46.45987467718811,
+              33.2550048828125
+            ],
+            [
+              166.40704245741804,
+              -46.33166706900742,
+              33.2550048828125
+            ],
+            [
+              166.23907470703125,
+              -46.2949333190918,
+              26.782712936401367
+            ],
+            [
+              166.18011474609375,
+              -46.42314147949219,
+              26.782712936401367
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2412,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 17, row: 6",
+        "DipDeg": 26.961992263793945,
+        "Rake": 90.0,
+        "LowDepth": 39.998783111572266,
+        "UpDepth": 33.19779586791992,
+        "DipDir": 101.48116,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.636123180389404,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.34234619140625,
+              -46.4888038635254,
+              33.19779586791992
+            ],
+            [
+              166.5135619581572,
+              -46.51260855622856,
+              39.998783111572266
+            ],
+            [
+              166.55195111133537,
+              -46.380750317857796,
+              39.998783111572266
+            ],
+            [
+              166.3811492919922,
+              -46.356945037841804,
+              33.19779586791992
+            ],
+            [
+              166.34234619140625,
+              -46.4888038635254,
+              33.19779586791992
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2418,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 18, row: 2",
+        "DipDeg": 15.279006004333496,
+        "Rake": 90.0,
+        "LowDepth": 16.00933074951172,
+        "UpDepth": 12.056536674499512,
+        "DipDir": 117.57467,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.646033763885498,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.5716094970703,
+              -46.335655212402344,
+              12.056536674499512
+            ],
+            [
+              165.7388603082448,
+              -46.39577109973537,
+              16.00933074951172
+            ],
+            [
+              165.82838585076183,
+              -46.27663479591039,
+              16.00933074951172
+            ],
+            [
+              165.6614990234375,
+              -46.21651840209962,
+              12.056536674499512
+            ],
+            [
+              165.5716094970703,
+              -46.335655212402344,
+              12.056536674499512
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2419,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 18, row: 3",
+        "DipDeg": 17.280986785888672,
+        "Rake": 90.0,
+        "LowDepth": 20.393484115600586,
+        "UpDepth": 15.937612533569336,
+        "DipDir": 117.23974,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.655172824859619,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.73609924316406,
+              -46.39876174926758,
+              15.937612533569336
+            ],
+            [
+              165.9023429254353,
+              -46.45759904942931,
+              20.393484115600586
+            ],
+            [
+              165.9909836878726,
+              -46.33807364203029,
+              20.393484115600586
+            ],
+            [
+              165.82510375976562,
+              -46.27923583984375,
+              15.937612533569336
+            ],
+            [
+              165.73609924316406,
+              -46.39876174926758,
+              15.937612533569336
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2420,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 18, row: 4",
+        "DipDeg": 19.872161865234375,
+        "Rake": 90.0,
+        "LowDepth": 25.317861557006836,
+        "UpDepth": 20.21902084350586,
+        "DipDir": 113.833084,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.666183948516846,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.90213012695312,
+              -46.465690612792976,
+              20.21902084350586
+            ],
+            [
+              166.07076871037773,
+              -46.516829715793676,
+              25.317861557006836
+            ],
+            [
+              166.14907781194543,
+              -46.39382914873768,
+              25.317861557006836
+            ],
+            [
+              165.98081970214844,
+              -46.34268951416016,
+              20.21902084350586
+            ],
+            [
+              165.90213012695312,
+              -46.465690612792976,
+              20.21902084350586
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2421,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 18, row: 5",
+        "DipDeg": 22.267501831054688,
+        "Rake": 90.0,
+        "LowDepth": 31.116039276123047,
+        "UpDepth": 25.432069778442383,
+        "DipDir": 109.778435,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.677760124206543,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.0663604736328,
+              -46.53182601928711,
+              25.432069778442383
+            ],
+            [
+              166.23725170766863,
+              -46.57394200716796,
+              31.116039276123047
+            ],
+            [
+              166.30284848010695,
+              -46.4473747282546,
+              31.116039276123047
+            ],
+            [
+              166.13235473632812,
+              -46.40525817871094,
+              25.432069778442383
+            ],
+            [
+              166.0663604736328,
+              -46.53182601928711,
+              25.432069778442383
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2422,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 18, row: 6",
+        "DipDeg": 23.513038635253906,
+        "Rake": 90.0,
+        "LowDepth": 37.06365966796875,
+        "UpDepth": 31.07929229736328,
+        "DipDir": 104.20915,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.690365791320801,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.2312469482422,
+              -46.59870529174805,
+              31.07929229736328
+            ],
+            [
+              166.4058640507911,
+              -46.628935556208624,
+              37.06365966796875
+            ],
+            [
+              166.45338788436115,
+              -46.498515475621,
+              37.06365966796875
+            ],
+            [
+              166.27919006347656,
+              -46.468284606933594,
+              31.07929229736328
+            ],
+            [
+              166.2312469482422,
+              -46.59870529174805,
+              31.07929229736328
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2423,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 18, row: 7",
+        "DipDeg": 25.68064308166504,
+        "Rake": 90.0,
+        "LowDepth": 44.38338851928711,
+        "UpDepth": 37.8830680847168,
+        "DipDir": 97.83327,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.703264236450195,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.39273071289062,
+              -46.66334533691406,
+              37.8830680847168
+            ],
+            [
+              166.56827857277756,
+              -46.67978045529254,
+              44.38338851928711
+            ],
+            [
+              166.59450409529106,
+              -46.54647266881906,
+              44.38338851928711
+            ],
+            [
+              166.4193878173828,
+              -46.53003692626953,
+              37.8830680847168
+            ],
+            [
+              166.39273071289062,
+              -46.66334533691406,
+              37.8830680847168
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 2433,
+        "FaultName": "Puysegur, 15km, 50% coupling, corrected dip direction; col: 19, row: 6",
+        "DipDeg": 21.192625045776367,
+        "Rake": 90.0,
+        "LowDepth": 34.98661422729492,
+        "UpDepth": 29.56404685974121,
+        "DipDir": 104.93126,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 5.746715068817139,
+        "ParentID": 557,
+        "ParentName": "Puysegur, 15km, 50% coupling, corrected dip direction",
+        "SlipRateStdDev": 0.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.1425323486328,
+              -46.71834182739258,
+              29.56404685974121
+            ],
+            [
+              166.31990061545082,
+              -46.75061203646729,
+              34.98661422729492
+            ],
+            [
+              166.36990465835544,
+              -46.620634477835644,
+              34.98661422729492
+            ],
+            [
+              166.19296264648438,
+              -46.58836364746093,
+              29.56404685974121
+            ],
+            [
+              166.1425323486328,
+              -46.71834182739258,
+              29.56404685974121
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 1788,
+        "FaultName": "South Wedge 5, Subsection 5",
+        "DipDeg": 25.0,
+        "Rake": 110.0,
+        "LowDepth": 9.28,
+        "UpDepth": 0.0,
+        "DipDir": 108.9,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 3.0,
+        "ParentID": 424,
+        "ParentName": "South Wedge 5",
+        "SlipRateStdDev": 1.5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              166.0082163037778,
+              -45.52461112327938,
+              0.0
+            ],
+            [
+              166.0167,
+              -45.55,
+              0.0
+            ],
+            [
+              165.98182981224588,
+              -45.612611507801944,
+              0.0
+            ],
+            [
+              166.22414285074416,
+              -45.67032835401955,
+              9.28
+            ],
+            [
+              166.2587424229733,
+              -45.6077174055197,
+              9.28
+            ],
+            [
+              166.25014924698175,
+              -45.582328755239566,
+              9.28
+            ],
+            [
+              166.0082163037778,
+              -45.52461112327938,
+              0.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FaultID": 1789,
+        "FaultName": "South Wedge 5, Subsection 6",
+        "DipDeg": 25.0,
+        "Rake": 110.0,
+        "LowDepth": 9.28,
+        "UpDepth": 0.0,
+        "DipDir": 108.9,
+        "AseismicSlipFactor": 0.0,
+        "CouplingCoeff": 1.0,
+        "SlipRate": 3.0,
+        "ParentID": 424,
+        "ParentName": "South Wedge 5",
+        "SlipRateStdDev": 1.5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              165.98182981224588,
+              -45.612611507801944,
+              0.0
+            ],
+            [
+              165.9333,
+              -45.69949999999999,
+              0.0
+            ],
+            [
+              166.1759900674131,
+              -45.75721606797506,
+              9.28
+            ],
+            [
+              166.22414285074416,
+              -45.67032835401955,
+              9.28
+            ],
+            [
+              165.98182981224588,
+              -45.612611507801944,
+              0.0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
