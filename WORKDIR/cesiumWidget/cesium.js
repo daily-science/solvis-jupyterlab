@@ -21,9 +21,40 @@ function render({ model, el }) {
     div.style.width = model.get("width");
     div.style.height = model.get("height");
 
+    
+    // div.addEventListener("dragstart", function (event) {
+    //     console.log("dragstert");
+    //     console.log(event);
+    // });
+
+    // div.addEventListener("click", function (event) {
+    //     console.log("click");
+    //     console.log(event);
+    // });
+
+    // div.addEventListener("pointerdown", function (event) {
+    //     console.log("pointerdown");
+    //     console.log(event);
+    //     event.stopPropagation();
+    // });
+
+    // div.addEventListener("touchmove", function (event) {
+    //     console.log("touchmove");
+    //     console.log(event);
+    // });
+    // document.addEventListener("mousemove", function (event) {
+    //     console.log("mousemove");
+    //     console.log(event);
+    // });
+
+    // div.addEventListener("pointerup", function (event) {
+    //     console.log("pointerup");
+    //     console.log(event);
+    // });
+
 
     const viewer = new Cesium.Viewer(div, {
-        animation: true,
+        animation: false,
         baseLayerPicker: false,
         navigationHelpButton: true,
         navigationInstructionsInitiallyVisible: false,
@@ -32,7 +63,7 @@ function render({ model, el }) {
         geocoder: false,
         fullscreenButton: true,
         fullscreenElement: div,
-        timeline: true,
+        timeline: false,
         baseLayer: new Cesium.ImageryLayer(new Cesium.OpenStreetMapImageryProvider({
             url: "https://tile.openstreetmap.org/",
             credit: new Cesium.Credit("OpenStreetMap", true)
@@ -42,20 +73,20 @@ function render({ model, el }) {
     });
 
 
-    viewer.animation.viewModel.dateFormatter = function(date, viewModel) {
-        return "the date";
-    }
+    // viewer.animation.viewModel.dateFormatter = function (date, viewModel) {
+    //     return "the date";
+    // }
 
-    viewer.animation.viewModel.timeFormatter = function(date, viewModel) {
-        return "Oakley was here";
-    }
+    // viewer.animation.viewModel.timeFormatter = function (date, viewModel) {
+    //     return "Oakley was here";
+    // }
 
-    Cesium.Timeline.prototype.makeLabel = function (time) {
-        const localDate = Cesium.JulianDate.toDate(time);
-        return "oakley";
-      };
+    // Cesium.Timeline.prototype.makeLabel = function (time) {
+    //     const localDate = Cesium.JulianDate.toDate(time);
+    //     return "oakley";
+    // };
 
-   //   console.log(viewer.camera.frustum);
+    //   console.log(viewer.camera.frustum);
 
     //    viewer.camera.frustum.near = 1e-9;
     //    viewer.camera.frustum.far = 500000000000;
@@ -63,7 +94,7 @@ function render({ model, el }) {
         destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
     });
     viewer.homeButton.viewModel.command.beforeExecute.addEventListener(
-        function(e) {
+        function (e) {
             e.cancel = true;
             viewer.scene.camera.flyTo({
                 destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
@@ -72,8 +103,8 @@ function render({ model, el }) {
     )
     viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
     // setting to 2.5D because rendering and navigation is confusing and buggy in 3D
-  //  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
-  viewer.scene.mode = Cesium.SceneMode.SCENE3D;
+    //  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
+    viewer.scene.mode = Cesium.SceneMode.SCENE3D;
 
     if (model.get("geojson").length > 0) {
         const geojson = JSON.parse(model.get("geojson"));
@@ -103,7 +134,8 @@ function render({ model, el }) {
 
             // Cesium expects elevation in meters
             for (const feature of geojson.features) {
-                const coords = feature.geometry.coordinates;
+                //    console.log(feature);
+                const coords = feature.geometry.coordinates[0];
                 for (var i = 0; i < coords.length; i++) {
                     const [lon, lat, ele] = coords[i];
                     coords[i] = [lon, lat, ele * -1000];
@@ -125,6 +157,11 @@ function render({ model, el }) {
     //       this._distanceToLimbInScaledSpaceSquared
     //     );
     //   };
+
+    div.addEventListener("contextmenu", function (ev) {
+        ev.stopPropagation();
+    })
+
 
     el.appendChild(div);
 
