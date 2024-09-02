@@ -70,6 +70,7 @@ var pickedCartographic;
 var startPosition;
 var startDirection;
 var startUp;
+var startRight;
 var startMousePosition;
 
 handler.setInputAction(function (movement) {
@@ -121,6 +122,7 @@ handler.setInputAction(function (movement) {
         startPosition = viewer.scene.camera.position.clone();
         startDirection = viewer.scene.camera.direction.clone();
         startUp = viewer.scene.camera.up.clone();
+        startRight = viewer.scene.camera.right.clone();
 
 
         // const heading = 0;
@@ -205,6 +207,12 @@ handler.setInputAction(function (movement) {
 
 }, Cesium.ScreenSpaceEventType.RIGHT_DOWN);
 
+const mmul = function (inVector, ...m3s) {
+    return m3s.reduce(function (vec, mat) {
+        return Cesium.Matrix3.multiplyByVector(mat, vec, new Cesium.Cartesian3());
+    }, inVector);
+}
+
 handler.setInputAction(function (movement) {
 
     if (!pickedPosition) {
@@ -225,15 +233,18 @@ handler.setInputAction(function (movement) {
 
     // console.log("pickedCartographic: " + pickedCartographic);
 
+
     const startHpr = new Cesium.HeadingPitchRoll(lon, lat, 0);
     //const endHpr = new Cesium.HeadingPitchRoll(-lon, -lat, 0);
     const startRot = Cesium.Matrix3.fromHeadingPitchRoll(startHpr);
     const endRot = Cesium.Matrix3.inverse(startRot, new Cesium.Matrix3());// Cesium.Matrix3.fromHeadingPitchRoll(endHpr);
 
 
-    const heading = 0.0;
+
+
+    const heading = 0;
     const pitch = (Cesium.Math.PI / 360) * -(startMousePosition.y - movement.endPosition.y);
-    const roll = -(Cesium.Math.PI / 360) * (startMousePosition.x - movement.endPosition.x);
+    const roll = (Cesium.Math.PI / 360) * (startMousePosition.x - movement.endPosition.x);
     const hprPitch = new Cesium.HeadingPitchRoll(0, pitch, 0);
     const hprRoll = new Cesium.HeadingPitchRoll(0, 0, roll);
 
@@ -242,6 +253,24 @@ handler.setInputAction(function (movement) {
     const simpleRotationMatrixPitch = Cesium.Matrix3.fromHeadingPitchRoll(hprPitch);
     const simpleRotationMatrixRoll = Cesium.Matrix3.fromHeadingPitchRoll(hprRoll);
 
+    const rotQuat =Cesium.Quaternion.fromAxisAngle(pickedPosition, roll );
+    const quatRotM =Cesium.Matrix3.fromQuaternion(rotQuat);
+    const pitchAxis = mmul(startRight, quatRotM);
+    const pitchQuat = Cesium.Quaternion.fromAxisAngle(pitchAxis, -pitch );
+    const pitchRotM=Cesium.Matrix3.fromQuaternion(pitchQuat);
+
+
+    // work out camera heading so that we can do pitch in camera space
+    const tempCameraDir = mmul(startRight, endRot);
+
+
+    const cameraHeading = Math.atan2(tempCameraDir.y, tempCameraDir.x - 1);
+    console.log("cameraHeading: " + cameraHeading);
+    console.log()
+    const cameraStartHpr = new Cesium.HeadingPitchRoll(0, 0, cameraHeading);
+    const cameraStartRot = Cesium.Matrix3.fromHeadingPitchRoll(cameraStartHpr);
+    const cameraEndRot = Cesium.Matrix3.inverse(cameraStartRot, new Cesium.Matrix3());
+
     const a = new Cesium.Cartesian3();
     const b = new Cesium.Cartesian3();
 
@@ -249,12 +278,12 @@ handler.setInputAction(function (movement) {
     // console.log("endRot: " + endRot);
     // console.log("simpleRotationMatrix: " + simpleRotationMatrix);
 
+
+
     Cesium.Cartesian3.subtract(startPosition, pickedPosition, a);
-    Cesium.Matrix3.multiplyByVector(endRot, a, b);
-    Cesium.Matrix3.multiplyByVector(simpleRotationMatrixPitch, b, a);
-    Cesium.Matrix3.multiplyByVector(simpleRotationMatrixRoll, a, b);
-    Cesium.Matrix3.multiplyByVector(startRot, b, a);
-    Cesium.Cartesian3.add(a, pickedPosition, b);
+//    const a2 = mmul(a, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+const a2 = mmul(a, quatRotM, pitchRotM);
+    Cesium.Cartesian3.add(a2, pickedPosition, b);
     viewer.scene.camera.position = b;
 
     const c = new Cesium.Cartesian3();
@@ -262,20 +291,21 @@ handler.setInputAction(function (movement) {
 
     // console.log(startDirection);
 
-    Cesium.Matrix3.multiplyByVector(endRot, startDirection, c);
-    Cesium.Matrix3.multiplyByVector(simpleRotationMatrixPitch, c, d);
-    Cesium.Matrix3.multiplyByVector(simpleRotationMatrixRoll, d, c);
-    Cesium.Matrix3.multiplyByVector(startRot, c, d);
-    viewer.scene.camera.direction = d;
+//    const d2 = mmul(startDirection, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+const d2 = mmul(startDirection, quatRotM, pitchRotM);
+
+    viewer.scene.camera.direction = d2;
 
     const e = new Cesium.Cartesian3();
     const f = new Cesium.Cartesian3();
 
-    Cesium.Matrix3.multiplyByVector(endRot, startUp, e);
-    Cesium.Matrix3.multiplyByVector(simpleRotationMatrixPitch, e, f);
-    Cesium.Matrix3.multiplyByVector(simpleRotationMatrixRoll, f, e);
-    Cesium.Matrix3.multiplyByVector(startRot, e, f);
-    viewer.scene.camera.up = f;
+//    const f2 = mmul(startUp, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+const f2 = mmul(startUp, quatRotM, pitchRotM);
+
+    viewer.scene.camera.up = f2;
+
+//    viewer.scene.camera.right = mmul(startRight, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+viewer.scene.camera.right = mmul(startRight, quatRotM, pitchRotM);
 
     // console.log("new camera direction: " + viewer.scene.camera.direction);
     // console.log("new camera position: " + viewer.scene.camera.position);
