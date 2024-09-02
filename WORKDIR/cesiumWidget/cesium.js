@@ -14,7 +14,7 @@ function loadScript(src) {
 
 await loadScript("https://cesium.com/downloads/cesiumjs/releases/1.116/Build/Cesium/Cesium.js");
 
-function CameraController(viewer) {
+function CameraController(viewer, callback) {
     const NONE = 0;
     const LEFT = 1;
     const MIDDLE = 2;
@@ -106,6 +106,16 @@ function CameraController(viewer) {
         }, inVector);
     }
 
+    const setCamera = function (position, direction, up, right) {
+        viewer.scene.camera.position = position;
+        viewer.scene.camera.direction = direction;
+        viewer.scene.camera.up = up;
+        viewer.scene.camera.right = right;
+        if (callback) {
+            callback(position, direction, up);
+        }
+    }
+
     const right_move = function (movement) {
 
         // This rotates the camera around the axis origin->pickedPosition for heading, 
@@ -124,12 +134,13 @@ function CameraController(viewer) {
         Cesium.Cartesian3.subtract(startPosition, pickedPosition, a);
         const b = mmul(a, quatRotM, pitchRotM);
         Cesium.Cartesian3.add(b, pickedPosition, a);
-        viewer.scene.camera.position = a;
 
         // these are normal vectors that only need to be rotated
-        viewer.scene.camera.direction = mmul(startDirection, quatRotM, pitchRotM);
-        viewer.scene.camera.up = mmul(startUp, quatRotM, pitchRotM);
-        viewer.scene.camera.right = mmul(startRight, quatRotM, pitchRotM);
+        const direction = mmul(startDirection, quatRotM, pitchRotM);
+        const up = mmul(startUp, quatRotM, pitchRotM);
+        const right = mmul(startRight, quatRotM, pitchRotM);
+
+        setCamera(a, direction, up, right);
     }
 
     const left_move = function (movement) {
@@ -159,20 +170,40 @@ function CameraController(viewer) {
         // const rotQuat = Cesium.Quaternion.fromAxisAngle(rotAxis, -angle);
         // const rotation = Cesium.Matrix3.fromQuaternion(rotQuat);
 
-        viewer.scene.camera.position = mmul(startPosition, rotation);
-        viewer.scene.camera.direction = mmul(startDirection, rotation);
-        viewer.scene.camera.up = mmul(startUp, rotation);
-        viewer.scene.camera.right = mmul(startRight, rotation);
+        setCamera(
+            mmul(startPosition, rotation),
+            mmul(startDirection, rotation),
+            mmul(startUp, rotation),
+            mmul(startRight, rotation));
+    }
 
+    const stopDrag = function () {
+        pickedPosition = undefined;
+        mouseMode = NONE;
+    }
+
+    const wheel = function (event) {
+        stopDrag();
+
+        const cartographic = Cesium.Cartographic.fromCartesian(
+            viewer.scene.camera.position
+        );
+
+        const zoom = Math.max(Math.min(cartographic.height / 4, 50000), 1000);
+
+        if (event > 0) {
+            viewer.scene.camera.zoomIn(zoom);
+        } else {
+            viewer.scene.camera.zoomOut(zoom);
+        }
     }
 
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-
-    console.log("pickTranslucentDepth : " + viewer.scene.pickTranslucentDepth);
-    console.log("pickPositionSupported: " + viewer.scene.pickPositionSupported);
-
     handler.setInputAction(leftDown, Cesium.ScreenSpaceEventType.LEFT_DOWN);
     handler.setInputAction(rightDown, Cesium.ScreenSpaceEventType.RIGHT_DOWN);
+    handler.setInputAction(stopDrag, Cesium.ScreenSpaceEventType.RIGHT_UP);
+    handler.setInputAction(stopDrag, Cesium.ScreenSpaceEventType.LEFT_UP);
+    handler.setInputAction(wheel, Cesium.ScreenSpaceEventType.WHEEL);
 
     handler.setInputAction(function (movement) {
         if (!pickedPosition || mouseMode < 0) {
@@ -187,39 +218,7 @@ function CameraController(viewer) {
             left_move(movement);
         }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-
-    handler.setInputAction(function (movement) {
-        pickedPosition = undefined;
-        mouseMode = NONE;
-    }, Cesium.ScreenSpaceEventType.RIGHT_UP);
-
-    handler.setInputAction(function (movement) {
-        pickedPosition = undefined;
-        mouseMode = NONE;
-    }, Cesium.ScreenSpaceEventType.LEFT_UP);
-
-    handler.setInputAction(function (movement) {
-        pickedPosition = undefined;
-        mouseMode = NONE;
-
-        const cartographic = Cesium.Cartographic.fromCartesian(
-            viewer.scene.camera.position
-        );
-
-        const zoom = Math.max(Math.min(cartographic.height / 4, 50000), 1000);
-
-
-        if (movement > 0) {
-            viewer.scene.camera.zoomIn(zoom);
-        } else {
-            viewer.scene.camera.zoomOut(zoom);
-        }
-    }, Cesium.ScreenSpaceEventType.WHEEL);
-
-
 };
-
 
 function render({ model, el }) {
 
@@ -242,16 +241,27 @@ function render({ model, el }) {
         timeline: false,
         baseLayer: new Cesium.ImageryLayer(new Cesium.OpenStreetMapImageryProvider({
             url: "https://tile.openstreetmap.org/",
-            credit: new Cesium.Credit("OpenStreetMap", true)
+            credit: new Cesium.Credit("Cesium: OpenStreetMap", true)
         })),
         // large negative value to render large underground structures
         depthPlaneEllipsoidOffset: -50000.0,
     });
 
+    const oldCamera = model.get("_camera");
+    if (oldCamera && Object.keys(oldCamera).length > 0) {
+        viewer.camera.setView({
+            destination: oldCamera.position,
+            orientation: {
+                direction: oldCamera.direction,
+                up: oldCamera.up
+            }
+        })
+    } else {
+        viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
+        });
+    }
 
-    viewer.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
-    });
     viewer.homeButton.viewModel.command.beforeExecute.addEventListener(
         function (e) {
             e.cancel = true;
@@ -263,7 +273,16 @@ function render({ model, el }) {
     viewer.scene.mode = Cesium.SceneMode.SCENE3D;
     viewer.scene.globe.translucency.enabled = true;
 
-    const cameraController = new CameraController(viewer);
+    const cameraCallback = function (position, direction, up) {
+        model.set("_camera", {
+            "position": position,
+            "direction": direction,
+            "up": up
+        });
+        model.save_changes();
+    }
+
+    new CameraController(viewer, cameraCallback);
 
     for (const geojson of model.get("data")) {
 
@@ -279,12 +298,9 @@ function render({ model, el }) {
         viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
     }
 
-
-
     div.addEventListener("contextmenu", function (ev) {
         ev.stopPropagation();
     })
-
 
     el.appendChild(div);
 
