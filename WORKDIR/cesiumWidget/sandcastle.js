@@ -234,24 +234,10 @@ handler.setInputAction(function (movement) {
     // console.log("pickedCartographic: " + pickedCartographic);
 
 
-    const startHpr = new Cesium.HeadingPitchRoll(lon, lat, 0);
-    //const endHpr = new Cesium.HeadingPitchRoll(-lon, -lat, 0);
-    const startRot = Cesium.Matrix3.fromHeadingPitchRoll(startHpr);
-    const endRot = Cesium.Matrix3.inverse(startRot, new Cesium.Matrix3());// Cesium.Matrix3.fromHeadingPitchRoll(endHpr);
-
-
-
-
-    const heading = 0;
     const pitch = (Cesium.Math.PI / 360) * -(startMousePosition.y - movement.endPosition.y);
     const roll = (Cesium.Math.PI / 360) * (startMousePosition.x - movement.endPosition.x);
-    const hprPitch = new Cesium.HeadingPitchRoll(0, pitch, 0);
-    const hprRoll = new Cesium.HeadingPitchRoll(0, 0, roll);
 
     //  console.log("pitch: " + pitch);
-
-    const simpleRotationMatrixPitch = Cesium.Matrix3.fromHeadingPitchRoll(hprPitch);
-    const simpleRotationMatrixRoll = Cesium.Matrix3.fromHeadingPitchRoll(hprRoll);
 
     const rotQuat =Cesium.Quaternion.fromAxisAngle(pickedPosition, roll );
     const quatRotM =Cesium.Matrix3.fromQuaternion(rotQuat);
@@ -259,17 +245,6 @@ handler.setInputAction(function (movement) {
     const pitchQuat = Cesium.Quaternion.fromAxisAngle(pitchAxis, -pitch );
     const pitchRotM=Cesium.Matrix3.fromQuaternion(pitchQuat);
 
-
-    // work out camera heading so that we can do pitch in camera space
-    const tempCameraDir = mmul(startRight, endRot);
-
-
-    const cameraHeading = Math.atan2(tempCameraDir.y, tempCameraDir.x - 1);
-    console.log("cameraHeading: " + cameraHeading);
-    console.log()
-    const cameraStartHpr = new Cesium.HeadingPitchRoll(0, 0, cameraHeading);
-    const cameraStartRot = Cesium.Matrix3.fromHeadingPitchRoll(cameraStartHpr);
-    const cameraEndRot = Cesium.Matrix3.inverse(cameraStartRot, new Cesium.Matrix3());
 
     const a = new Cesium.Cartesian3();
     const b = new Cesium.Cartesian3();
