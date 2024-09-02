@@ -14,22 +14,6 @@ function loadScript(src) {
 
 await loadScript("https://cesium.com/downloads/cesiumjs/releases/1.116/Build/Cesium/Cesium.js");
 
-const toLatLonString = function (cartesian) {
-    const cartographic = Cesium.Cartographic.fromCartesian(
-        cartesian
-    );
-
-    const longitudeString = Cesium.Math.toDegrees(
-        cartographic.longitude
-    ).toFixed(2);
-    const latitudeString = Cesium.Math.toDegrees(
-        cartographic.latitude
-    ).toFixed(2);
-    const heightString = cartographic.height.toFixed(2);
-
-    return " " + latitudeString + "," + longitudeString + ", " + heightString;
-};
-
 function CameraController(viewer) {
     const NONE = 0;
     const LEFT = 1;
@@ -123,76 +107,37 @@ function CameraController(viewer) {
     }
 
     const right_move = function (movement) {
-        //    console.log(viewer.scene.pickPositionSupported);
-        //    console.log(movement);
-        //    console.log(movement.endPosition);
 
-        const thePosition = movement.endPosition;
-        //  console.log("Y movement: "+ (movement.startPosition.y - movement.endPosition.y));
-
-        //        console.log("camera direction: " + viewer.scene.camera.direction);
-        //      console.log("camera position: " + viewer.scene.camera.position);
-
-        const lat = Cesium.Math.PI * 1.5 - pickedCartographic.latitude;
-        const lon = pickedCartographic.longitude;
-
-        // console.log("pickedCartographic: " + pickedCartographic);
-
+        // This rotates the camera around the axis origin->pickedPosition for heading, 
+        // and around the camera's "right" vector for pitch.
 
         const pitch = (Cesium.Math.PI / 360) * -(startMousePosition.y - movement.endPosition.y);
         const roll = (Cesium.Math.PI / 360) * (startMousePosition.x - movement.endPosition.x);
-
-        //  console.log("pitch: " + pitch);
-
         const rotQuat = Cesium.Quaternion.fromAxisAngle(pickedPosition, roll);
         const quatRotM = Cesium.Matrix3.fromQuaternion(rotQuat);
         const pitchAxis = mmul(startRight, quatRotM);
         const pitchQuat = Cesium.Quaternion.fromAxisAngle(pitchAxis, -pitch);
         const pitchRotM = Cesium.Matrix3.fromQuaternion(pitchQuat);
 
-
+        // the camera position needs to be translated into and out of the pickedPosition frame
         const a = new Cesium.Cartesian3();
-        const b = new Cesium.Cartesian3();
-
-        // console.log("startRot: " + startRot);
-        // console.log("endRot: " + endRot);
-        // console.log("simpleRotationMatrix: " + simpleRotationMatrix);
-
-
-
         Cesium.Cartesian3.subtract(startPosition, pickedPosition, a);
-        //    const a2 = mmul(a, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-        const a2 = mmul(a, quatRotM, pitchRotM);
-        Cesium.Cartesian3.add(a2, pickedPosition, b);
-        viewer.scene.camera.position = b;
+        const b = mmul(a, quatRotM, pitchRotM);
+        Cesium.Cartesian3.add(b, pickedPosition, a);
+        viewer.scene.camera.position = a;
 
-        const c = new Cesium.Cartesian3();
-        const d = new Cesium.Cartesian3();
-
-        // console.log(startDirection);
-
-        //    const d2 = mmul(startDirection, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-        const d2 = mmul(startDirection, quatRotM, pitchRotM);
-
-        viewer.scene.camera.direction = d2;
-
-        const e = new Cesium.Cartesian3();
-        const f = new Cesium.Cartesian3();
-
-        //    const f2 = mmul(startUp, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-        const f2 = mmul(startUp, quatRotM, pitchRotM);
-
-        viewer.scene.camera.up = f2;
-
-        //    viewer.scene.camera.right = mmul(startRight, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+        // these are normal vectors that only need to be rotated
+        viewer.scene.camera.direction = mmul(startDirection, quatRotM, pitchRotM);
+        viewer.scene.camera.up = mmul(startUp, quatRotM, pitchRotM);
         viewer.scene.camera.right = mmul(startRight, quatRotM, pitchRotM);
     }
 
     const left_move = function (movement) {
-        const thePosition = movement.endPosition;
 
+        // this rotates the camera around the globe's origin so that the pickedPosition from
+        // the drag start is now at roughly the current mouse position when viewed through the camera.
 
-        const ray = startCamera.getPickRay(thePosition);
+        const ray = startCamera.getPickRay(movement.endPosition);
         // intersect with sphere
         // const sphere = new Cesium.BoundingSphere(pickedPosition,  Cesium.Cartesian3.magnitude(pickedPosition));
         // const interval = Cesium.IntersectionTests.raySphere(ray, sphere);
@@ -202,17 +147,6 @@ function CameraController(viewer) {
         const plane = new Cesium.Plane(Cesium.Cartesian3.normalize(pickedPosition, new Cesium.Cartesian3()), -Cesium.Cartesian3.magnitude(pickedPosition));
         const point = Cesium.IntersectionTests.rayPlane(ray, plane);
 
-        //   const point = viewer.scene.pickPosition(thePosition);
-
-        //  viewer.entities.add({
-        //     position: point,
-        //     ellipsoid: {
-        //         radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
-        //         material: Cesium.Color.GREEN,
-        //     },
-        // });
-
-
         // lat/lon rotation
         const cartographic = Cesium.Cartographic.fromCartesian(point);
         const hpr = new Cesium.HeadingPitchRoll(cartographic.longitude - pickedCartographic.longitude, cartographic.latitude - pickedCartographic.latitude, 0);
@@ -220,31 +154,15 @@ function CameraController(viewer) {
 
 
         // quaternion
-
         // const rotAxis = Cesium.Cartesian3.cross(pickedPosition, point, new Cesium.Cartesian3());
         // const angle = Cesium.Cartesian3.angleBetween(pickedPosition, point);
         // const rotQuat = Cesium.Quaternion.fromAxisAngle(rotAxis, -angle);
         // const rotation = Cesium.Matrix3.fromQuaternion(rotQuat);
 
-
-        // constant amount
-
-        // const pitch = (Cesium.Math.PI / 100000) * -(startMousePosition.y - movement.endPosition.y);
-        // const roll = (Cesium.Math.PI / 100000) * (startMousePosition.x - movement.endPosition.x);
-        // const hpr = new Cesium.HeadingPitchRoll(-roll, -pitch, 0);
-        // const rotation = Cesium.Matrix3.fromHeadingPitchRoll(hpr);
-
-
-        // console.log(ray);
-        // console.log(plane);
-        // console.log("point: " + point);
-
         viewer.scene.camera.position = mmul(startPosition, rotation);
         viewer.scene.camera.direction = mmul(startDirection, rotation);
         viewer.scene.camera.up = mmul(startUp, rotation);
         viewer.scene.camera.right = mmul(startRight, rotation);
-
-        //console.log(ray);
 
     }
 
