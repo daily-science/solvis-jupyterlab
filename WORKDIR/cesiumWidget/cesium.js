@@ -46,7 +46,6 @@ function CameraController(viewer) {
     var startMousePosition;
     var startCamera;
 
-    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
     viewer.scene.screenSpaceCameraController.enableTranslate = false;
     viewer.scene.screenSpaceCameraController.enableZoom = false;
@@ -54,50 +53,27 @@ function CameraController(viewer) {
     viewer.scene.screenSpaceCameraController.enableTilt = false;
     viewer.scene.screenSpaceCameraController.enableLook = false;
 
+    viewer.scene.pickTranslucentDepth = true;
+
     const leftDown = function (event) {
-        console.log("-left-----------------------------");
 
-        //    console.log(viewer.scene.pickPositionSupported);
-        console.log(event);
-        //    console.log(event.endPosition);
-
-        const thePosition = event.position;
-        console.log(viewer);
-
-        const ray = viewer.camera.getPickRay(thePosition);
-
+        const ray = viewer.camera.getPickRay(event.position);
         const picked = viewer.scene.pickFromRay(ray);
-        console.log(picked);
 
         if (picked && picked.object) {
-
             pickedPosition = picked.position;
+        } else {
+            const cartesian = viewer.camera.pickEllipsoid(
+                event.position,
+                viewer.scene.globe.ellipsoid
+            );
+            pickedPosition = cartesian;
+        }
+
+        if (pickedPosition) {
 
             mouseMode = LEFT;
-
-            const cartesian = viewer.scene.pickPosition(thePosition);
-            console.log("cartesian " + cartesian);
-            if (Cesium.defined(cartesian)) {
-
-                console.log(toLatLonString(cartesian));
-            }
-
-            console.log("picked position: " + picked.position);
-            const cartographic = Cesium.Cartographic.fromCartesian(
-                picked.position
-            );
-            console.log(toLatLonString(picked.position));
-            pickedCartographic = cartographic.clone();
-
-            // this.viewer.entities.add({
-            //     position: picked.position,
-            //     ellipsoid: {
-            //         radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
-            //         material: Cesium.Color.RED,
-            //     },
-            // });
-            console.log("camera direction: " + viewer.scene.camera.direction);
-            console.log("camera position: " + viewer.scene.camera.position);
+            pickedCartographic = Cesium.Cartographic.fromCartesian(pickedPosition);
 
             startMousePosition = event.position;
             startPosition = viewer.scene.camera.position.clone();
@@ -114,57 +90,28 @@ function CameraController(viewer) {
     }
 
     const rightDown = function (event) {
-        console.log("------------------------------");
 
-        //    console.log(viewer.scene.pickPositionSupported);
-        console.log(event);
-        //    console.log(event.endPosition);
-
-        const thePosition = event.position;
-
-
-        const ray = viewer.camera.getPickRay(thePosition);
-
+        const ray = viewer.camera.getPickRay(event.position);
         const picked = viewer.scene.pickFromRay(ray);
-        console.log(picked);
 
         if (picked && picked.object) {
-
             pickedPosition = picked.position;
-            mouseMode = RIGHT;
-
-
-            const cartesian = viewer.scene.pickPosition(thePosition);
-            console.log("cartesian " + cartesian);
-            if (Cesium.defined(cartesian)) {
-
-                console.log(toLatLonString(cartesian));
-            }
-
-            console.log("picked position: " + picked.position);
-            const cartographic = Cesium.Cartographic.fromCartesian(
-                picked.position
+        } else {
+            const cartesian = viewer.camera.pickEllipsoid(
+                event.position,
+                viewer.scene.globe.ellipsoid
             );
-            console.log(toLatLonString(picked.position));
-            pickedCartographic = cartographic.clone();
+            pickedPosition = cartesian;
+        }
 
-            // viewer.entities.add({
-            //     position: picked.position,
-            //     ellipsoid: {
-            //         radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
-            //         material: Cesium.Color.RED,
-            //     },
-            // });
-            console.log("camera direction: " + viewer.scene.camera.direction);
-            console.log("camera position: " + viewer.scene.camera.position);
-
+        if (pickedPosition) {
+            mouseMode = RIGHT;
+            pickedCartographic = Cesium.Cartographic.fromCartesian(pickedPosition);
             startMousePosition = event.position;
             startPosition = viewer.scene.camera.position.clone();
             startDirection = viewer.scene.camera.direction.clone();
             startUp = viewer.scene.camera.up.clone();
             startRight = viewer.scene.camera.right.clone();
-
-            return;
         }
     };
 
@@ -301,6 +248,11 @@ function CameraController(viewer) {
 
     }
 
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    console.log("pickTranslucentDepth : " + viewer.scene.pickTranslucentDepth);
+    console.log("pickPositionSupported: " + viewer.scene.pickPositionSupported);
+
     handler.setInputAction(leftDown, Cesium.ScreenSpaceEventType.LEFT_DOWN);
     handler.setInputAction(rightDown, Cesium.ScreenSpaceEventType.RIGHT_DOWN);
 
@@ -332,16 +284,16 @@ function CameraController(viewer) {
     handler.setInputAction(function (movement) {
         pickedPosition = undefined;
         mouseMode = NONE;
-        
+
         const cartographic = Cesium.Cartographic.fromCartesian(
             viewer.scene.camera.position
         );
-    
+
         const zoom = Math.max(Math.min(cartographic.height / 4, 50000), 1000);
-    
-    
-        if(movement > 0) {
-            viewer.scene.camera.zoomIn(zoom);    
+
+
+        if (movement > 0) {
+            viewer.scene.camera.zoomIn(zoom);
         } else {
             viewer.scene.camera.zoomOut(zoom);
         }
@@ -392,7 +344,6 @@ function render({ model, el }) {
     )
     viewer.scene.mode = Cesium.SceneMode.SCENE3D;
     viewer.scene.globe.translucency.enabled = true;
-    viewer.scene.pickTranslucentDepth = true;
 
     const cameraController = new CameraController(viewer);
 
