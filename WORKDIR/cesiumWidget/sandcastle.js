@@ -65,6 +65,12 @@ viewer.scene.screenSpaceCameraController.enableLook = false;
 
 const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
+const NONE = 0;
+const LEFT = 1;
+const MIDDLE = 2;
+const RIGHT = 3;
+
+var mouseMode = NONE;
 var pickedPosition;
 var pickedCartographic;
 var startPosition;
@@ -72,6 +78,69 @@ var startDirection;
 var startUp;
 var startRight;
 var startMousePosition;
+var startCamera;
+
+handler.setInputAction(function (movement) {
+
+    console.log("-left-----------------------------");
+
+    //    console.log(viewer.scene.pickPositionSupported);
+    console.log(movement);
+    //    console.log(movement.endPosition);
+
+    const thePosition = movement.position;
+
+
+    const ray = viewer.camera.getPickRay(thePosition);
+
+    const picked = viewer.scene.pickFromRay(ray);
+    console.log(picked);
+
+    if (picked && picked.object) {
+
+        pickedPosition = picked.position;
+
+        mouseMode = LEFT;
+
+        const cartesian = viewer.scene.pickPosition(thePosition);
+        console.log("cartesian " + cartesian);
+        if (Cesium.defined(cartesian)) {
+
+            console.log(toLatLonString(cartesian));
+        }
+
+        console.log("picked position: " + picked.position);
+        const cartographic = Cesium.Cartographic.fromCartesian(
+            picked.position
+        );
+        console.log(toLatLonString(picked.position));
+        pickedCartographic = cartographic.clone();
+
+        viewer.entities.add({
+            position: picked.position,
+            ellipsoid: {
+                radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
+                material: Cesium.Color.RED,
+            },
+        });
+        console.log("camera direction: " + viewer.scene.camera.direction);
+        console.log("camera position: " + viewer.scene.camera.position);
+
+        startMousePosition = movement.position;
+        startPosition = viewer.scene.camera.position.clone();
+        startDirection = viewer.scene.camera.direction.clone();
+        startUp = viewer.scene.camera.up.clone();
+        startRight = viewer.scene.camera.right.clone();
+
+        startCamera = new Cesium.Camera(viewer.scene);
+        startCamera.position = startPosition;
+        startCamera.direction = startDirection;
+        startCamera.up = startUp;
+        startCamera.right = startRight;
+
+    }
+
+}, Cesium.ScreenSpaceEventType.LEFT_DOWN);
 
 handler.setInputAction(function (movement) {
 
@@ -92,6 +161,7 @@ handler.setInputAction(function (movement) {
     if (picked && picked.object) {
 
         pickedPosition = picked.position;
+        mouseMode = RIGHT;
 
 
         const cartesian = viewer.scene.pickPosition(thePosition);
@@ -124,86 +194,8 @@ handler.setInputAction(function (movement) {
         startUp = viewer.scene.camera.up.clone();
         startRight = viewer.scene.camera.right.clone();
 
-
-        // const heading = 0;
-        // const pitch = Cesium.Math.PI / 20;
-        // const roll = 0.0;
-        // const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
-
-        // const rotationMatrix = Cesium.Matrix3.fromHeadingPitchRoll(hpr);
-
-        // const a = new Cesium.Cartesian3();
-        // const b = new Cesium.Cartesian3();
-
-        // Cesium.Cartesian3.subtract(viewer.scene.camera.position, picked.position, a);
-        // Cesium.Matrix3.multiplyByVector(rotationMatrix, a, b);
-        // Cesium.Cartesian3.add(b, picked.position, a);
-
-        // viewer.scene.camera.position = a;
-
-        // const c = new Cesium.Cartesian3();
-        // const d = new Cesium.Cartesian3();
-        // const e = new Cesium.Cartesian3();
-
-        // Cesium.Matrix3.multiplyByVector(rotationMatrix, viewer.scene.camera.direction, c);
-
-        // viewer.scene.camera.direction = c;
-
-        // console.log("camera direction: " + viewer.scene.camera.direction);
-        // console.log("camera position: " + viewer.scene.camera.position);
-
-
-        // const transform = Cesium.Transforms.eastNorthUpToFixedFrame(picked.position);
-        // const camera = viewer.camera;
-        // camera.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-        // camera.lookAtTransform(
-        //     transform,
-        //     new Cesium.Cartesian3(1200.0, -1200.0, 120000.0)
-        // );
-
         return;
-        /*
-        const heading = 0;
-        const pitch = 0;//Cesium.Math.PI_OVER_FOUR;
-        const roll = 0.0;
-        const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
-        const rotation = Cesium.Transforms.headingPitchRollToFixedFrame(picked.position, hpr);
-
-        const a = new Cesium.Cartesian3();
-        const b = new Cesium.Cartesian3();
-        
-        // Cesium.Cartesian3.subtract(viewer.scene.camera.position, picked.position, a);
-        // Cesium.Matrix4.multiplyByPoint(rotation, a, b);
-        //  Cesium.Cartesian3.add(b, picked.position, a);
-        
-        //  viewer.scene.camera.position = a;
-        
-        Cesium.Cartesian3.subtract(viewer.scene.camera.position, picked.position, a);
-        Cesium.Matrix4.multiplyByPointAsVector(rotation, a, b);
-        Cesium.Cartesian3.add(b, picked.position, a);
-
-        viewer.scene.camera.position = a;
-
-        const c = new Cesium.Cartesian3();
-        const d = new Cesium.Cartesian3();
-        Cesium.Cartesian3.subtract(viewer.scene.camera.direction, picked.position, c);
-        Cesium.Matrix4.multiplyByPointAsVector(rotation, c, d);
-        Cesium.Cartesian3.add(d, picked.position, c);
-
-        viewer.scene.camera.direction = c;
-
-
-        console.log("new camera dir: " + a);
-        console.log("new camera pos: " + b);
-*/
-
     }
-
-    //    console.log(picked);
-
-
-
-
 
 }, Cesium.ScreenSpaceEventType.RIGHT_DOWN);
 
@@ -213,11 +205,7 @@ const mmul = function (inVector, ...m3s) {
     }, inVector);
 }
 
-handler.setInputAction(function (movement) {
-
-    if (!pickedPosition) {
-        return;
-    }
+const right_move = function (movement) {
     //    console.log(viewer.scene.pickPositionSupported);
     //    console.log(movement);
     //    console.log(movement.endPosition);
@@ -239,11 +227,11 @@ handler.setInputAction(function (movement) {
 
     //  console.log("pitch: " + pitch);
 
-    const rotQuat =Cesium.Quaternion.fromAxisAngle(pickedPosition, roll );
-    const quatRotM =Cesium.Matrix3.fromQuaternion(rotQuat);
+    const rotQuat = Cesium.Quaternion.fromAxisAngle(pickedPosition, roll);
+    const quatRotM = Cesium.Matrix3.fromQuaternion(rotQuat);
     const pitchAxis = mmul(startRight, quatRotM);
-    const pitchQuat = Cesium.Quaternion.fromAxisAngle(pitchAxis, -pitch );
-    const pitchRotM=Cesium.Matrix3.fromQuaternion(pitchQuat);
+    const pitchQuat = Cesium.Quaternion.fromAxisAngle(pitchAxis, -pitch);
+    const pitchRotM = Cesium.Matrix3.fromQuaternion(pitchQuat);
 
 
     const a = new Cesium.Cartesian3();
@@ -256,8 +244,8 @@ handler.setInputAction(function (movement) {
 
 
     Cesium.Cartesian3.subtract(startPosition, pickedPosition, a);
-//    const a2 = mmul(a, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-const a2 = mmul(a, quatRotM, pitchRotM);
+    //    const a2 = mmul(a, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+    const a2 = mmul(a, quatRotM, pitchRotM);
     Cesium.Cartesian3.add(a2, pickedPosition, b);
     viewer.scene.camera.position = b;
 
@@ -266,84 +254,124 @@ const a2 = mmul(a, quatRotM, pitchRotM);
 
     // console.log(startDirection);
 
-//    const d2 = mmul(startDirection, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-const d2 = mmul(startDirection, quatRotM, pitchRotM);
+    //    const d2 = mmul(startDirection, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+    const d2 = mmul(startDirection, quatRotM, pitchRotM);
 
     viewer.scene.camera.direction = d2;
 
     const e = new Cesium.Cartesian3();
     const f = new Cesium.Cartesian3();
 
-//    const f2 = mmul(startUp, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-const f2 = mmul(startUp, quatRotM, pitchRotM);
+    //    const f2 = mmul(startUp, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+    const f2 = mmul(startUp, quatRotM, pitchRotM);
 
     viewer.scene.camera.up = f2;
 
-//    viewer.scene.camera.right = mmul(startRight, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
-viewer.scene.camera.right = mmul(startRight, quatRotM, pitchRotM);
+    //    viewer.scene.camera.right = mmul(startRight, endRot, simpleRotationMatrixRoll, simpleRotationMatrixPitch, startRot);
+    viewer.scene.camera.right = mmul(startRight, quatRotM, pitchRotM);
+}
 
-    // console.log("new camera direction: " + viewer.scene.camera.direction);
-    // console.log("new camera position: " + viewer.scene.camera.position);
-
-
-    // const transform = Cesium.Transforms.eastNorthUpToFixedFrame(picked.position);
-    // const camera = viewer.camera;
-    // camera.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
-    // camera.lookAtTransform(
-    //     transform,
-    //     new Cesium.Cartesian3(1200.0, -1200.0, 120000.0)
-    // );
-
-    return;
-    /*
-    const heading = 0;
-    const pitch = 0;//Cesium.Math.PI_OVER_FOUR;
-    const roll = 0.0;
-    const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
-    const rotation = Cesium.Transforms.headingPitchRollToFixedFrame(picked.position, hpr);
-
-    const a = new Cesium.Cartesian3();
-    const b = new Cesium.Cartesian3();
-    
-    // Cesium.Cartesian3.subtract(viewer.scene.camera.position, picked.position, a);
-    // Cesium.Matrix4.multiplyByPoint(rotation, a, b);
-    //  Cesium.Cartesian3.add(b, picked.position, a);
-    
-    //  viewer.scene.camera.position = a;
-    
-    Cesium.Cartesian3.subtract(viewer.scene.camera.position, picked.position, a);
-    Cesium.Matrix4.multiplyByPointAsVector(rotation, a, b);
-    Cesium.Cartesian3.add(b, picked.position, a);
-
-    viewer.scene.camera.position = a;
-
-    const c = new Cesium.Cartesian3();
-    const d = new Cesium.Cartesian3();
-    Cesium.Cartesian3.subtract(viewer.scene.camera.direction, picked.position, c);
-    Cesium.Matrix4.multiplyByPointAsVector(rotation, c, d);
-    Cesium.Cartesian3.add(d, picked.position, c);
-
-    viewer.scene.camera.direction = c;
+const left_move = function (movement) {
+    const thePosition = movement.endPosition;
 
 
-    console.log("new camera dir: " + a);
-    console.log("new camera pos: " + b);
-*/
+    const ray = startCamera.getPickRay(thePosition);
+    // intersect with sphere
+    // const sphere = new Cesium.BoundingSphere(pickedPosition,  Cesium.Cartesian3.magnitude(pickedPosition));
+    // const interval = Cesium.IntersectionTests.raySphere(ray, sphere);
+    // const point = Cesium.Ray.getPoint(ray, interval.stop);
+
+    // intersect with plane
+     const plane = new Cesium.Plane(Cesium.Cartesian3.normalize(pickedPosition, new Cesium.Cartesian3()), -Cesium.Cartesian3.magnitude(pickedPosition));
+     const point = Cesium.IntersectionTests.rayPlane(ray, plane);
+
+ //   const point = viewer.scene.pickPosition(thePosition);
+
+    //  viewer.entities.add({
+    //     position: point,
+    //     ellipsoid: {
+    //         radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
+    //         material: Cesium.Color.GREEN,
+    //     },
+    // });
+
+
+    // lat/lon rotation
+    const cartographic = Cesium.Cartographic.fromCartesian(point);
+    const hpr = new Cesium.HeadingPitchRoll(cartographic.longitude - pickedCartographic.longitude, cartographic.latitude - pickedCartographic.latitude, 0);
+    const rotation = Cesium.Matrix3.fromHeadingPitchRoll(hpr);
+
+
+    // quaternion
+
+    // const rotAxis = Cesium.Cartesian3.cross(pickedPosition, point, new Cesium.Cartesian3());
+    // const angle = Cesium.Cartesian3.angleBetween(pickedPosition, point);
+    // const rotQuat = Cesium.Quaternion.fromAxisAngle(rotAxis, -angle);
+    // const rotation = Cesium.Matrix3.fromQuaternion(rotQuat);
+
+
+    // constant amount
+
+    // const pitch = (Cesium.Math.PI / 100000) * -(startMousePosition.y - movement.endPosition.y);
+    // const roll = (Cesium.Math.PI / 100000) * (startMousePosition.x - movement.endPosition.x);
+    // const hpr = new Cesium.HeadingPitchRoll(-roll, -pitch, 0);
+    // const rotation = Cesium.Matrix3.fromHeadingPitchRoll(hpr);
+
+
+    // console.log(ray);
+    // console.log(plane);
+    // console.log("point: " + point);
+
+    viewer.scene.camera.position = mmul(startPosition, rotation);
+    viewer.scene.camera.direction = mmul(startDirection, rotation);
+    viewer.scene.camera.up = mmul(startUp, rotation);
+    viewer.scene.camera.right = mmul(startRight, rotation);
+
+    //console.log(ray);
 
 }
 
-    //    console.log(picked);
+
+handler.setInputAction(function (movement) {
 
 
+    if (!pickedPosition || mouseMode < 0) {
+        return;
+    }
 
 
+    if (mouseMode == RIGHT) {
+        right_move(movement);
+    }
 
+    if (mouseMode == LEFT) {
+        left_move(movement);
+    }
+
+
+}
     , Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
 
 handler.setInputAction(function (movement) {
     pickedPosition = undefined;
+    mouseMode = NONE;
 }, Cesium.ScreenSpaceEventType.RIGHT_UP);
+
+handler.setInputAction(function (movement) {
+    pickedPosition = undefined;
+    mouseMode = NONE;
+}, Cesium.ScreenSpaceEventType.LEFT_UP);
+
+handler.setInputAction(function (movement) {
+    pickedPosition = undefined;
+    mouseMode = NONE;
+    if(movement > 0) {
+        viewer.scene.camera.zoomIn();    
+    } else {
+        viewer.scene.camera.zoomOut();
+    }
+}, Cesium.ScreenSpaceEventType.WHEEL);
 
 
 //    viewer.scene.screenSpaceCameraController.minimumZoomDistance = -20000;
