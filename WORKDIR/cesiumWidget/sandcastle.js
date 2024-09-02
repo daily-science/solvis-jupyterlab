@@ -116,13 +116,13 @@ handler.setInputAction(function (movement) {
         console.log(toLatLonString(picked.position));
         pickedCartographic = cartographic.clone();
 
-        viewer.entities.add({
-            position: picked.position,
-            ellipsoid: {
-                radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
-                material: Cesium.Color.RED,
-            },
-        });
+        // viewer.entities.add({
+        //     position: picked.position,
+        //     ellipsoid: {
+        //         radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
+        //         material: Cesium.Color.RED,
+        //     },
+        // });
         console.log("camera direction: " + viewer.scene.camera.direction);
         console.log("camera position: " + viewer.scene.camera.position);
 
@@ -178,13 +178,13 @@ handler.setInputAction(function (movement) {
         console.log(toLatLonString(picked.position));
         pickedCartographic = cartographic.clone();
 
-        viewer.entities.add({
-            position: picked.position,
-            ellipsoid: {
-                radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
-                material: Cesium.Color.RED,
-            },
-        });
+        // viewer.entities.add({
+        //     position: picked.position,
+        //     ellipsoid: {
+        //         radii: new Cesium.Cartesian3(200.0, 200.0, 200.0),
+        //         material: Cesium.Color.RED,
+        //     },
+        // });
         console.log("camera direction: " + viewer.scene.camera.direction);
         console.log("camera position: " + viewer.scene.camera.position);
 
@@ -366,10 +366,18 @@ handler.setInputAction(function (movement) {
 handler.setInputAction(function (movement) {
     pickedPosition = undefined;
     mouseMode = NONE;
+    
+    const cartographic = Cesium.Cartographic.fromCartesian(
+        viewer.scene.camera.position
+    );
+
+    const zoom = Math.max(Math.min(cartographic.height / 4, 50000), 1000);
+
+
     if(movement > 0) {
-        viewer.scene.camera.zoomIn();    
+        viewer.scene.camera.zoomIn(zoom);    
     } else {
-        viewer.scene.camera.zoomOut();
+        viewer.scene.camera.zoomOut(zoom);
     }
 }, Cesium.ScreenSpaceEventType.WHEEL);
 
