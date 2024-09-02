@@ -21,42 +21,11 @@ function render({ model, el }) {
     div.style.width = model.get("width");
     div.style.height = model.get("height");
 
-    
-    // div.addEventListener("dragstart", function (event) {
-    //     console.log("dragstert");
-    //     console.log(event);
-    // });
-
-    // div.addEventListener("click", function (event) {
-    //     console.log("click");
-    //     console.log(event);
-    // });
-
-    // div.addEventListener("pointerdown", function (event) {
-    //     console.log("pointerdown");
-    //     console.log(event);
-    //     event.stopPropagation();
-    // });
-
-    // div.addEventListener("touchmove", function (event) {
-    //     console.log("touchmove");
-    //     console.log(event);
-    // });
-    // document.addEventListener("mousemove", function (event) {
-    //     console.log("mousemove");
-    //     console.log(event);
-    // });
-
-    // div.addEventListener("pointerup", function (event) {
-    //     console.log("pointerup");
-    //     console.log(event);
-    // });
-
 
     const viewer = new Cesium.Viewer(div, {
         animation: false,
         baseLayerPicker: false,
-        navigationHelpButton: true,
+        navigationHelpButton: false,
         navigationInstructionsInitiallyVisible: false,
         sceneModePicker: false,
         homeButton: true,
@@ -106,12 +75,22 @@ function render({ model, el }) {
     //  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
     viewer.scene.mode = Cesium.SceneMode.SCENE3D;
 
-    if (model.get("geojson").length > 0) {
-        const geojson = JSON.parse(model.get("geojson"));
+    console.log(viewer.scene.screenSpaceCameraController);
+
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = -20000;
+    viewer.scene.screenSpaceCameraController.minimumZoomRate = 350;
+
+    console.log("load geometry");
+
+
+    for (const geojson of model.get("data")) {
+
+        console.log(geojson);
 
         // Cesium expects elevation in meters
         for (const feature of geojson.features) {
-            const coords = feature.geometry.coordinates;
+            //    console.log(feature);
+            const coords = feature.geometry.coordinates[0];
             for (var i = 0; i < coords.length; i++) {
                 const [lon, lat, ele] = coords[i];
                 coords[i] = [lon, lat, ele * -1000];
@@ -122,30 +101,6 @@ function render({ model, el }) {
         viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
     }
 
-    console.log(viewer.scene.screenSpaceCameraController);
-
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = -20000;
-    viewer.scene.screenSpaceCameraController.minimumZoomRate = 350;
-
-
-    model.on("msg:custom", (msg) => {
-        if (msg?.geojson) {
-            const geojson = msg.geojson;
-
-            // Cesium expects elevation in meters
-            for (const feature of geojson.features) {
-                //    console.log(feature);
-                const coords = feature.geometry.coordinates[0];
-                for (var i = 0; i < coords.length; i++) {
-                    const [lon, lat, ele] = coords[i];
-                    coords[i] = [lon, lat, ele * -1000];
-                }
-            }
-
-
-            viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
-        }
-    });
 
     // this works for 2.5D
     // Cesium.EllipsoidalOccluder.prototype.isScaledSpacePointVisible = function (
@@ -176,7 +131,7 @@ function render({ model, el }) {
     full.innerHTML = "fullscreen";
     full.addEventListener("click", fullScreen, false);
     div.appendChild(full);
-}
 
+}
 
 export default { render };
