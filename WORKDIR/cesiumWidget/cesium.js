@@ -392,7 +392,7 @@ function render({ model, el }) {
                 new Cesium.HeadingPitchRange(
                     viewer.scene.camera.heading,
                     viewer.scene.camera.pitch,
-                    70000
+                    500000
                 )
             );
         });

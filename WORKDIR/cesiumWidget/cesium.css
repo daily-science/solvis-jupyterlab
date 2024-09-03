@@ -7,6 +7,7 @@
 
 .rangeWidget {
     position: absolute;
+    display: flex;
     bottom: 5px;
     right: 40px;
     width: 200px;
@@ -19,9 +20,12 @@
     border: none; /* Remove borders */
     color: black; /* White text */
     padding: 4px 4px; /* Some padding */
-    font-size: 12px; /* Set a font size */
+    font-size: 15px; /* Set a font size */
     cursor: pointer; /* Mouse pointer on hover */
-    /*display: none;*/
+    text-align: center;
+    height: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
   }
   
   /* Darker background on mouse-over */
