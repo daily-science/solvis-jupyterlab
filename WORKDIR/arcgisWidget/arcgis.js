@@ -113,8 +113,8 @@ function render({ model, el }) {
             };
 
             const template = {
-                title: "Section {FaultID}:{ParentID}",
-                content: "name: <b>{FaultName}</b>",
+                title: "Section or Patch",
+                content: "<ul><li>fault id: {FaultID}</li><li>patch id: {patch_id}</li><li> fault name: {FaultName}</li></ul>",
             };
 
             function createGeoJsonLayer(geojson) {
@@ -218,7 +218,8 @@ function render({ model, el }) {
                 initialViewParams.camera = Camera.fromJSON(model.get("_camera"));
             } else {
                 initialViewParams.zoom = 7;
-                initialViewParams.center = selectionLayers[currentSelectionIndex].extentCenter || [174.777, -41.288];
+                const index = currentSelectionIndex === -1 ? 0 : currentSelectionIndex;
+                initialViewParams.center = selectionLayers[index]?.extentCenter || [174.777, -41.288];
             }
             initialViewParams.container = null;
             initialViewParams.map = scene;
@@ -228,7 +229,14 @@ function render({ model, el }) {
             for (var layer of selectionLayers) {
                 scene.add(layer);
             }
-            selectionLayers[currentSelectionIndex].visible = true;
+
+            if (currentSelectionIndex !== -1) {
+                selectionLayers[currentSelectionIndex].visible = true;
+            } else {
+                for (const layer of selectionLayers) {
+                    layer.visible = true;
+                }
+            }
             // console.log(sceneView.constraints.clipDistance);
 
             // sceneView.constraints.clipDistance.watch("near", function (newValue, oldValue, propertyName, target) {
@@ -325,7 +333,7 @@ function render({ model, el }) {
                 }
             });
 
-            if (selectionLayers.length > 1) {
+            if (selectionLayers.length > 1 && currentSelectionIndex !== -1) {
                 sceneView.ui.add(slider, "bottom-right");
                 slider.values = [currentSelectionIndex + 1];
                 slider.max = selectionLayers.length;
@@ -334,6 +342,22 @@ function render({ model, el }) {
                 sliderForward.style.display = "block";
                 sliderBack.style.display = "block";
             }
+
+
+            const showGlobeButton = document.createElement("div");
+            showGlobeButton.classList.add("fa");
+            showGlobeButton.classList.add("fa-globe");
+            showGlobeButton.classList.add("sliderControlButton");
+            sceneView.ui.add(showGlobeButton, "top-right");
+            showGlobeButton.style.display = "block";
+
+            showGlobeButton.addEventListener("click", function (event) {
+                if (scene.ground.opacity > 0.7) {
+                    scene.ground.opacity = 0;
+                } else {
+                    scene.ground.opacity = 0.8
+                }
+            });
 
             containerDiv.appendChild(div);
             el.appendChild(containerDiv);
