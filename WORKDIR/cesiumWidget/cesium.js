@@ -158,6 +158,10 @@ function CameraController(viewer, callback) {
         const plane = new Cesium.Plane(Cesium.Cartesian3.normalize(pickedPosition, new Cesium.Cartesian3()), -Cesium.Cartesian3.magnitude(pickedPosition));
         const point = Cesium.IntersectionTests.rayPlane(ray, plane);
 
+        if(!point) {
+            return;
+        }
+
         // lat/lon rotation
         const cartographic = Cesium.Cartographic.fromCartesian(point);
         const hpr = new Cesium.HeadingPitchRoll(cartographic.longitude - pickedCartographic.longitude, cartographic.latitude - pickedCartographic.latitude, 0);
@@ -306,7 +310,7 @@ function render({ model, el }) {
             credit: new Cesium.Credit("Cesium: OpenStreetMap", true)
         })),
         // large negative value to render large underground structures
-        depthPlaneEllipsoidOffset: -100000.0,
+       depthPlaneEllipsoidOffset: -100000.0,
     });
 
     const oldCamera = model.get("_camera");
@@ -334,6 +338,7 @@ function render({ model, el }) {
     )
     viewer.scene.mode = Cesium.SceneMode.SCENE3D;
     viewer.scene.globe.translucency.enabled = true;
+    viewer.scene.globe.translucency.frontFaceAlpha = 0.5;
 
     const cameraCallback = function (position, direction, up) {
         model.set("_camera", {
@@ -376,8 +381,6 @@ function render({ model, el }) {
 
     if (dataSources.length > 1 && selected > -1) {
         new RangeWidget(div, 1, dataSources.length, selected, function (event) {
-            console.log(event);
-            console.log(dataSources[0]);
             dataSources[selected].then(function (source) {
                 source.show = false;
             });
@@ -395,16 +398,11 @@ function render({ model, el }) {
         });
     }
 
-
-
-
     div.addEventListener("contextmenu", function (ev) {
         ev.stopPropagation();
     })
 
     el.appendChild(div);
-
-
 }
 
 export default { render };
