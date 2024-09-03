@@ -158,7 +158,7 @@ function CameraController(viewer, callback) {
         const plane = new Cesium.Plane(Cesium.Cartesian3.normalize(pickedPosition, new Cesium.Cartesian3()), -Cesium.Cartesian3.magnitude(pickedPosition));
         const point = Cesium.IntersectionTests.rayPlane(ray, plane);
 
-        if(!point) {
+        if (!point) {
             return;
         }
 
@@ -224,6 +224,22 @@ function CameraController(viewer, callback) {
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 };
 
+function PickController(viewer, callback) {
+
+    if (!callback) {
+        throw new Error("callback is required");
+    }
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    handler.setInputAction(function (event) {
+        const picked = viewer.scene.pick(event.position);
+        if (picked) {
+            callback({ picked, position: event.position });
+        }
+    }
+        , Cesium.ScreenSpaceEventType.RIGHT_DOWN);
+}
+
 function RangeWidget(parent, min, max, selected, callback) {
 
     const div = document.createElement("div");
@@ -284,6 +300,15 @@ function RangeWidget(parent, min, max, selected, callback) {
     div.appendChild(sliderForward);
     parent.appendChild(div);
 
+    return function (value) {
+        if (value >= min && value <= max) {
+            slider.value = value;
+            callback({
+                type: "setValue",
+                value: slider.value
+            });
+        }
+    }
 }
 
 function render({ model, el }) {
@@ -310,7 +335,7 @@ function render({ model, el }) {
             credit: new Cesium.Credit("Cesium: OpenStreetMap", true)
         })),
         // large negative value to render large underground structures
-       depthPlaneEllipsoidOffset: -100000.0,
+        depthPlaneEllipsoidOffset: -100000.0,
     });
 
     const oldCamera = model.get("_camera");
@@ -350,6 +375,19 @@ function render({ model, el }) {
     }
 
     new CameraController(viewer, cameraCallback);
+    new PickController(viewer,
+        function ({ picked, position }) {
+            console.log(picked);
+            const canvas = document.createElement("canvas");
+            canvas.classList.add("sampleCanvas");
+            canvas.width = 200;
+            canvas.height = 200;
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.arc(100, 100, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+            el.appendChild(canvas);
+        });
 
     const data = model.get("data");
     var selected = model.get("selection") || 0;
@@ -380,21 +418,33 @@ function render({ model, el }) {
     console.log("selected: " + selected);
 
     if (dataSources.length > 1 && selected > -1) {
-        new RangeWidget(div, 1, dataSources.length, selected, function (event) {
-            dataSources[selected].then(function (source) {
-                source.show = false;
-            });
-            selected = event.value;
-            dataSources[selected].then(function (source) {
-                source.show = true;
-            });
-            viewer.zoomTo(dataSources[selected], 
-                new Cesium.HeadingPitchRange(
-                    viewer.scene.camera.heading,
-                    viewer.scene.camera.pitch,
-                    500000
-                )
-            );
+        const updateFunction = new RangeWidget(div, 1, dataSources.length - 1, selected, function (event) {
+            if (event.value !== selected) {
+                dataSources[selected].then(function (source) {
+                    source.show = false;
+                });
+                selected = event.value;
+                dataSources[selected].then(function (source) {
+                    source.show = true;
+                });
+                viewer.zoomTo(dataSources[selected],
+                    new Cesium.HeadingPitchRange(
+                        viewer.scene.camera.heading,
+                        viewer.scene.camera.pitch,
+                        500000
+                    )
+                );
+            }
+            if (model.get("selection") !== selected) {
+                //                console.log("save selection changes to: " + selected);
+                model.set("selection", selected);
+                model.save_changes();
+                //                console.log(model);
+            }
+        });
+        model.on("change:selection", function () {
+            //            console.log("selection updated: " + model.get("selection"));
+            updateFunction(model.get("selection"));
         });
     }
 
