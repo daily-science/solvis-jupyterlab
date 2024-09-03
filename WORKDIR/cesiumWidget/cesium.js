@@ -220,6 +220,68 @@ function CameraController(viewer, callback) {
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 };
 
+function RangeWidget(parent, min, max, selected, callback) {
+
+    const div = document.createElement("div");
+    div.classList.add("rangeWidget");
+
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.classList.add("rangeSlider");
+    slider.min = min;
+    slider.max = max;
+    slider.value = selected;
+
+    const sliderForward = document.createElement("div");
+    sliderForward.classList.add("fa");
+    sliderForward.classList.add("fa-forward");
+    sliderForward.classList.add("sliderControlButton");
+
+    const sliderBack = document.createElement("div");
+    sliderBack.classList.add("fa");
+    sliderBack.classList.add("fa-backward");
+    sliderBack.classList.add("sliderControlButton");
+
+    if (callback) {
+        slider.addEventListener("change", function (event) {
+            callback({
+                type: "change",
+                value: event.target.value
+            });
+        });
+        slider.addEventListener("input", function (event) {
+            callback({
+                type: "input",
+                value: event.target.value
+            });
+        });
+        sliderForward.addEventListener("click", function (event) {
+            if (max > slider.value) {
+                slider.value++;
+                callback({
+                    type: "forward",
+                    value: slider.value
+                });
+            }
+        });
+        sliderBack.addEventListener("click", function (event) {
+            if (min < slider.value) {
+                slider.value--;
+                callback({
+                    type: "back",
+                    value: slider.value
+                });
+            }
+        });
+    }
+
+    div.appendChild(slider);
+    div.appendChild(sliderBack);
+    div.appendChild(sliderForward);
+    parent.appendChild(div);
+
+}
+
 function render({ model, el }) {
 
     const div = document.createElement("div");
@@ -244,7 +306,7 @@ function render({ model, el }) {
             credit: new Cesium.Credit("Cesium: OpenStreetMap", true)
         })),
         // large negative value to render large underground structures
-        depthPlaneEllipsoidOffset: -50000.0,
+        depthPlaneEllipsoidOffset: -100000.0,
     });
 
     const oldCamera = model.get("_camera");
@@ -284,7 +346,11 @@ function render({ model, el }) {
 
     new CameraController(viewer, cameraCallback);
 
-    for (const geojson of model.get("data")) {
+    const data = model.get("data");
+    var selected = model.get("selection") || 0;
+    const dataSources = [];
+
+    for (const geojson of data) {
 
         // Cesium expects elevation in meters
         for (const feature of geojson.features) {
@@ -295,8 +361,42 @@ function render({ model, el }) {
                 coords[i] = [lon, lat, ele * -1000];
             }
         }
-        viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geojson));
+        const dataSource = Cesium.GeoJsonDataSource.load(geojson)
+        const show = selected === -1 || dataSources.length == selected;
+        dataSource.then(function (value) {
+            value.show = show;
+        })
+
+        dataSources.push(dataSource);
+        viewer.dataSources.add(dataSource);
     }
+
+    console.log("soiurces: " + dataSources.length);
+    console.log("selected: " + selected);
+
+    if (dataSources.length > 1 && selected > -1) {
+        new RangeWidget(div, 1, dataSources.length, selected, function (event) {
+            console.log(event);
+            console.log(dataSources[0]);
+            dataSources[selected].then(function (source) {
+                source.show = false;
+            });
+            selected = event.value;
+            dataSources[selected].then(function (source) {
+                source.show = true;
+            });
+            viewer.zoomTo(dataSources[selected], 
+                new Cesium.HeadingPitchRange(
+                    viewer.scene.camera.heading,
+                    viewer.scene.camera.pitch,
+                    70000
+                )
+            );
+        });
+    }
+
+
+
 
     div.addEventListener("contextmenu", function (ev) {
         ev.stopPropagation();
@@ -304,17 +404,6 @@ function render({ model, el }) {
 
     el.appendChild(div);
 
-    function fullScreen() {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            div.requestFullscreen();
-        }
-    }
-    const full = document.createElement("button");
-    full.innerHTML = "fullscreen";
-    full.addEventListener("click", fullScreen, false);
-    div.appendChild(full);
 
 }
 
