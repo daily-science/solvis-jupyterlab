@@ -1,0 +1,105 @@
+@import url("https://cesium.com/downloads/cesiumjs/releases/1.116/Build/Cesium/Widgets/widgets.css");
+
+ .cesium-credit-logoContainer{
+    display:none !important;
+}
+
+.sampleCanvas {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  width: 200px;
+  height: 200px;
+  border: 5px solid white;
+}
+
+
+.rangeWidget {
+    position: absolute;
+    display: flex;
+    bottom: 5px;
+    right: 40px;
+    width: 200px;
+    height: 29px;
+    background: white;
+}
+
+.sliderControlButton {
+    background-color: white; /* Blue background */
+    border: none; /* Remove borders */
+    color: black; /* White text */
+    padding: 4px 4px; /* Some padding */
+    font-size: 15px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    text-align: center;
+    height: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  
+  /* Darker background on mouse-over */
+  .sliderControlButton:hover {
+    background-color: RoyalBlue;
+  }
+
+/*  range CSS from https://range-input-css.netlify.app/ */
+
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  /* Removes default focus */
+  input[type="range"]:focus {
+    outline: none;
+  }
+  
+  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
+  /* slider track */
+  input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #add8e6;
+    border-radius: 0.5rem;
+    height: 0.5px;
+  }
+  
+  /* slider thumb */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    margin-top: -7.75px; /* Centers thumb on the track */
+    background-color: #808080;
+    border-radius: 0.25rem;
+    height: 1rem;
+    width: 10px;
+  }
+  
+  input[type="range"]:focus::-webkit-slider-thumb {
+    outline: 3px solid #808080;
+    outline-offset: 0.125rem;
+  }
+  
+  /*********** Firefox styles ***********/
+  /* slider track */
+  input[type="range"]::-moz-range-track {
+    background-color: #add8e6;
+    border-radius: 0.5rem;
+    height: 0.5px;
+  }
+  
+  /* slider thumb */
+  input[type="range"]::-moz-range-thumb {
+    background-color: #808080;
+    border: none; /*Removes extra border that FF applies*/
+    border-radius: 0.25rem;
+    height: 1rem;
+    width: 10px;
+  }
+  
+  input[type="range"]:focus::-moz-range-thumb{
+    outline: 3px solid #808080;
+    outline-offset: 0.125rem;
+  }
