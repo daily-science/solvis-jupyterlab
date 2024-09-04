@@ -1,4 +1,3 @@
-
 function loadScript(src) {
     return new Promise((resolve, reject) => {
         let script = Object.assign(document.createElement("script"), {
@@ -356,14 +355,13 @@ function render({ model, el }) {
     viewer.homeButton.viewModel.command.beforeExecute.addEventListener(
         function (e) {
             e.cancel = true;
-            viewer.scene.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(175.57716369628906, -41.35120773, 95000),
-            });
+            viewer.zoomTo(dataSources[selected]);
         }
     )
     viewer.scene.mode = Cesium.SceneMode.SCENE3D;
     viewer.scene.globe.translucency.enabled = true;
     viewer.scene.globe.translucency.frontFaceAlpha = 0.5;
+    viewer.scene.globe.undergroundColor = Cesium.Color.WHITE;
 
     const cameraCallback = function (position, direction, up) {
         model.set("_camera", {
@@ -375,19 +373,19 @@ function render({ model, el }) {
     }
 
     new CameraController(viewer, cameraCallback);
-    new PickController(viewer,
-        function ({ picked, position }) {
-            console.log(picked);
-            const canvas = document.createElement("canvas");
-            canvas.classList.add("sampleCanvas");
-            canvas.width = 200;
-            canvas.height = 200;
-            var ctx = canvas.getContext("2d");
-            ctx.beginPath();
-            ctx.arc(100, 100, 40, 0, 2 * Math.PI);
-            ctx.stroke();
-            el.appendChild(canvas);
-        });
+    // new PickController(viewer,
+    //     function ({ picked, position }) {
+    //         console.log(picked);
+    //         const canvas = document.createElement("canvas");
+    //         canvas.classList.add("sampleCanvas");
+    //         canvas.width = 200;
+    //         canvas.height = 200;
+    //         var ctx = canvas.getContext("2d");
+    //         ctx.beginPath();
+    //         ctx.arc(100, 100, 40, 0, 2 * Math.PI);
+    //         ctx.stroke();
+    //         el.appendChild(canvas);
+    //     });
 
     const data = model.get("data");
     var selected = model.get("selection") || 0;
@@ -403,6 +401,22 @@ function render({ model, el }) {
                 const [lon, lat, ele] = coords[i];
                 coords[i] = [lon, lat, ele * -1000];
             }
+            const style = feature.properties.style;
+            if (style) {
+                const mappings = [
+                    ["color", "stroke"],
+                    ["weight", "stroke-width"],
+                    ["opacity", "stroke-opacity"],
+                    ["fillColor", "fill"],
+                    ["fillOpacity", "fill-opacity"]
+                ];
+                for (var [from, to] of mappings) {
+                    if (style[from]) {
+                        feature.properties[to] = style[from];
+                    }
+                }
+
+            }
         }
         const dataSource = Cesium.GeoJsonDataSource.load(geojson)
         const show = selected === -1 || dataSources.length == selected;
@@ -414,8 +428,7 @@ function render({ model, el }) {
         viewer.dataSources.add(dataSource);
     }
 
-    console.log("soiurces: " + dataSources.length);
-    console.log("selected: " + selected);
+    viewer.zoomTo(dataSources[selected]);
 
     if (dataSources.length > 1 && selected > -1) {
         const updateFunction = new RangeWidget(div, 1, dataSources.length - 1, selected, function (event) {
