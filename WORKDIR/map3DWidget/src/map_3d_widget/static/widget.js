@@ -395,7 +395,7 @@ function render({ model, el }) {
     var selected = model.get("selection") || 0;
     var extrusionScale = model.get("extrusion");
 
-    //console.log(extrusionScale);
+    console.log(extrusionScale);
     const dataSources = [];
 
     for (const geojson of data) {
@@ -407,11 +407,14 @@ function render({ model, el }) {
             for (var i = 0; i < coords.length; i++) {
                 const [lon, lat, ele] = coords[i];
                 if (extrusionScale > 0) {
-                    coords[i] = [lon, lat];//, ele * 1000];
+                    coords[i] = [lon, lat];
                 } else {
-                    coords[i] = [lon, lat, ele * 1000];
+                    coords[i] = [lon, lat, ele * -1000];
                 }
+                //     console.log(coords[i]);
             }
+
+            // simulating some of https://leafletjs.com/reference.html#path-option
             const style = feature.properties.style;
             if (style) {
                 const mappings = [
@@ -434,10 +437,11 @@ function render({ model, el }) {
         const show = selected === -1 || dataSources.length == selected;
         dataSource.then(function (ds) {
             ds.show = show;
-           // console.log(ds.entities.values);
-            for (const entity of ds.entities.values) {
-             //  console.log(entity.properties.participation * extrusionScale);
-                entity.polygon.extrudedHeight = entity.properties.participation * extrusionScale
+            // console.log(ds.entities.values);
+            if (extrusionScale > 0) {
+                for (const entity of ds.entities.values) {
+                    entity.polygon.extrudedHeight = entity.properties.participation * extrusionScale
+                }
             }
         })
 
@@ -445,7 +449,7 @@ function render({ model, el }) {
         viewer.dataSources.add(dataSource);
     }
 
-    //console.log(JSON.stringify(data));
+  //  console.log(JSON.stringify(data));
 
     viewer.zoomTo(dataSources[selected]);
 
@@ -459,12 +463,13 @@ function render({ model, el }) {
                 dataSources[selected].then(function (source) {
                     source.show = true;
                 });
-                viewer.zoomTo(dataSources[selected],
-                    new Cesium.HeadingPitchRange(
-                        viewer.scene.camera.heading,
-                        viewer.scene.camera.pitch,
-                        500000
-                    )
+                viewer.zoomTo(dataSources[selected]
+                    // ,
+                    // new Cesium.HeadingPitchRange(
+                    //     viewer.scene.camera.heading,
+                    //     viewer.scene.camera.pitch,
+                    //     500000
+                    // )
                 );
             }
             if (model.get("selection") !== selected) {
@@ -485,6 +490,15 @@ function render({ model, el }) {
     })
 
     el.appendChild(div);
+
+    return function() {
+        console.log("destroy map_3d_widget");
+        while(dataSources.length){
+            dataSources.pop();
+        }
+        viewer.entities.removeAll();
+        viewer.destroy();
+    }
 }
 
 export default { render };
