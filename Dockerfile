@@ -7,7 +7,7 @@ RUN apt-get update
 RUN apt-get install -y git
 USER jovyan
 
-RUN pip install git+https://github.com/GNS-Science/solvis.git@4444d86ea9811f5faed3e911bbeacc17116e8d23
+RUN pip install git+https://github.com/GNS-Science/solvis.git@22d3c5cf058c1a93f99ad01ebae57ec7d4b2a5fb
 RUN pip install git+https://github.com/GNS-Science/solvis-graphql-api@b77645d230
 RUN pip install ipyleaflet
 RUN pip install "anywidget[dev]"
